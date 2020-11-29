@@ -1,3 +1,4 @@
+from .secret import secret_settings_key
 """
 Django settings for rafatech project.
 
@@ -20,8 +21,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'bl(05dq5#0bm3_jbb2(63@qxydskak2!$owcm^$s@c#wyq42j0'
-
+SECRET_KEY = secret_settings_key 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
