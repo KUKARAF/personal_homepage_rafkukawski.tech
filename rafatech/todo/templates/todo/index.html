@@ -188,4 +188,20 @@ function newElement() {
     }
   }
 }
+//communication with the server:
+
+  function create_task(todo_name,todo_auth,due_date,importance=1,required_time=1){
+      var url = "/todo/new";
+      var params = `todo_name=${todo_name}&todo_auth=${todo_auth}&due_date=${due_date}&importance=${importance}&required_time=${required_time}`;
+      var http = new XMLHttpRequest();
+
+      http.open("GET", url+"?"+params, true);
+      http.onreadystatechange = function()
+        {
+            if(http.readyState == 4 && http.status == 200) {
+                alert(http.responseText);
+            }
+        }
+      http.send(null);
+  }
 </script>
