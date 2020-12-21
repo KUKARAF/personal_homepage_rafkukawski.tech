@@ -7,8 +7,6 @@ def index(request):
     t = todo_item.objects.get(importance=1)
     return HttpResponse(t.todo_name)
 
-
-
 def delete(request, todo_id): 
     todo_item.objects.get(pk=todo_id).delete()
     return HttpResponse('succesfully deleted task %s' % todo_id) 

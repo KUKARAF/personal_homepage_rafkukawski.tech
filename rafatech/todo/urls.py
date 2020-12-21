@@ -18,4 +18,5 @@ urlpatterns = [
     path('delete/<int:todo_id>/', views.delete, name='delete'), #no query string params, are you sure msg needs tobe implemented on client side
     path('detail/<int:todo_id>/', views.detail, name='detail'),
     path('update/<int:todo_id>/', views.update_item, name='update_item'), #meant to be used with id in url  + query string params
+
     ]
