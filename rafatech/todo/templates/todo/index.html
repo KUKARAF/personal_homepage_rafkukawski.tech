@@ -1,207 +1,114 @@
-<! design stolen from  https://www.w3schools.com/howto/howto_js_todolist.asp  >
-
-<style>
-/* Include the padding and border in an element's total width and height */
-* {
-  box-sizing: border-box;
-}
-
-/* Remove margins and padding from the list */
-ul {
-  margin: 0;
-  padding: 0;
-}
-
-/* Style the list items */
-ul li {
-  cursor: pointer;
-  position: relative;
-  padding: 12px 8px 12px 40px;
-  background: #eee;
-  font-size: 18px;
-  transition: 0.2s;
-
-  /* make the list items unselectable */
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-
-/* Set all odd list items to a different color (zebra-stripes) */
-ul li:nth-child(odd) {
-  background: #f9f9f9;
-}
-
-/* Darker background-color on hover */
-ul li:hover {
-  background: #ddd;
-}
-
-/* When clicked on, add a background color and strike out text */
-ul li.checked {
-  background: #888;
-  color: #fff;
-  text-decoration: line-through;
-}
-
-/* Add a "checked" mark when clicked on */
-ul li.checked::before {
-  content: '';
-  position: absolute;
-  border-color: #fff;
-  border-style: solid;
-  border-width: 0 2px 2px 0;
-  top: 10px;
-  left: 16px;
-  transform: rotate(45deg);
-  height: 15px;
-  width: 7px;
-}
-
-/* Style the close button */
-.close {
-  position: absolute;
-  right: 0;
-  top: 0;
-  padding: 12px 16px 12px 16px;
-}
-
-.close:hover {
-  background-color: #f44336;
-  color: white;
-}
-
-/* Style the header */
-.header {
-  background-color: #f44336;
-  padding: 30px 40px;
-  color: white;
-  text-align: center;
-}
-
-/* Clear floats after the header */
-.header:after {
-  content: "";
-  display: table;
-  clear: both;
-}
-
-/* Style the input */
-input {
-  margin: 0;
-  border: none;
-  border-radius: 0;
-  width: 75%;
-  padding: 10px;
-  float: left;
-  font-size: 16px;
-}
-
-/* Style the "Add" button */
-.addBtn {
-  padding: 10px;
-  width: 25%;
-  background: #d9d9d9;
-  color: #555;
-  float: left;
-  text-align: center;
-  font-size: 16px;
-  cursor: pointer;
-  transition: 0.3s;
-  border-radius: 0;
-}
-
-.addBtn:hover {
-  background-color: #bbb;
-}
-</style>
-
+{% extends 'home.html' %}
+{% block content %}
 
 <div id="myDIV" class="header">
   <h2>My To Do List</h2>
-  <input type="text" id="myInput" placeholder="Title...">
-  <span onclick="newElement()" class="addBtn">Add</span>
+  <input type="text" id="masterBar" placeholder="Title..." class ="bg-dark h3 w-100 text-white">
 </div>
 
-<ul id="myUL">
-  {% for todo in todo_list %}
-	<li><div 
-    class="P{{todo.importance}}" todo_id="{{todo.todo_id}}" todo_auth="{{todo.todo_auth}}">{{ todo.todo_name }} </div></li>
-  {% endfor %}
+<ul id="todo_container">
 </ul>
 
 
 <script>
-  // Create a "close" button and append it to each list item
-var myNodelist = document.getElementsByTagName("LI");
-var i;
-for (i = 0; i < myNodelist.length; i++) {
-  var span = document.createElement("SPAN");
-  var txt = document.createTextNode("\u00D7");
-  span.className = "close";
-  span.appendChild(txt);
-  myNodelist[i].appendChild(span);
-}
-
-// Click on a close button to hide the current list item
-var close = document.getElementsByClassName("close");
-var i;
-for (i = 0; i < close.length; i++) {
-  close[i].onclick = function() {
-    var div = this.parentElement;
-    div.style.display = "none";
-  }
-}
-
-// Add a "checked" symbol when clicking on a list item
-var list = document.querySelector('ul');
-list.addEventListener('click', function(ev) {
-  if (ev.target.tagName === 'LI') {
-    ev.target.classList.toggle('checked');
-  }
-}, false);
-
-// Create a new list item when clicking on the "Add" button
-function newElement() {
-  var li = document.createElement("li");
-  var inputValue = document.getElementById("myInput").value;
-  var t = document.createTextNode(inputValue);
-  li.appendChild(t);
-  if (inputValue === '') {
-    alert("You must write something!");
-  } else {
-    document.getElementById("myUL").appendChild(li);
-  }
-  document.getElementById("myInput").value = "";
-
-  var span = document.createElement("SPAN");
-  var txt = document.createTextNode("\u00D7");
-  span.className = "close";
-  span.appendChild(txt);
-  li.appendChild(span);
-
-  for (i = 0; i < close.length; i++) {
-    close[i].onclick = function() {
-      var div = this.parentElement;
-      div.style.display = "none";
-    }
-  }
-}
 //communication with the server:
+  var today = new Date();
+  var dd = String(today.getDate()).padStart(2, '0');
+  var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+  var yyyy = today.getFullYear();
+  today = mm + '/' + dd + '/' + yyyy
 
-  function create_task(todo_name,todo_auth,due_date,importance=1,required_time=1){
+  function parse_input_box(event){
+  bar = document.getElementById("masterBar")
+  importance_regex = "([P])[0-9]\\s"
+  required_time_regex = "([D])[0-9]\\s"
+  try{importance = bar.value.match(importance_regex)[0].replace(" ", "").replace("P","")} catch{importance=0}
+  try{required_time = bar.value.match(required_time_regex)[0].replace(" ", "").replace("D","")} catch{required_time=1}
+  todo_name = bar.value.replace(importance_regex, "")
+      console.log(`importance is ${importance} and required time is ${required_time}`)
+  if (event.keyCode == 13 ) {
+    console.log('Enter pressed')
+    create_task(todo_name,today,  importance,required_time)
+  } else /* fullscreenerror */ {
+    /* handle a full screen toggle error */
+  }
+  }   
+
+
+  function add_node(todo_name,todo_id,importance=0,due_date=today, required_time=1 ) {
+    cont = document.getElementById("todo_container")
+    l = document.createElement('li')
+    d = document.createElement('div')
+    r = document.createElement('div')
+    
+    xdiv = document.createElement('div')
+    x = document.createElement('i')
+
+    l.classList.add("container");
+    
+    d.classList.add("P"+String(importance));
+    d.classList.add("col-10");
+    d.classList.add("bg-dark"); 
+    d.classList.add("text-white");
+    d.setAttribute("todo_id", todo_id)
+    d.setAttribute("due_date", due_date)
+    d.setAttribute("required_time", required_time)
+    d.innerText = todo_name
+    l.id = todo_id
+    x.classList.add("fa-times")
+    x.classList.add("fas")
+    xdiv.classList.add("col-1")
+    xdiv.setAttribute("todo_id", todo_id)
+    xdiv.addEventListener("click", function(){ delete_todo(event, todo_id); }); 
+    l.addEventListener("click", function(){ check_off(event,todo_id); }); 
+    r.classList.add("row")
+    r.appendChild(d)
+    xdiv.appendChild(x)
+    r.appendChild(xdiv)
+    l.appendChild(r)
+    cont.appendChild(l)
+}
+  function check_off(event, todo_id){
+      document.getElementById(todo_id).style.textDecoration = "line-through"
+      
+  }
+  function delete_todo(event, todo_id){
+      console.log(`deleting ${todo_id}`)
+      var delete_url = `/todo/delete/${todo_id}`;
+      var http = new XMLHttpRequest();
+      if (confirm("Are you sure?")){
+      http.open("GET", delete_url);
+      
+      http.onreadystatechange = function()
+        {
+            if(http.readyState == 4 && http.status == 200) {
+                document.getElementById(todo_id).remove()
+            }
+        }
+          http.send(null);}
+      
+  }
+
+
+  document.getElementById("masterBar").addEventListener("keydown", parse_input_box);
+  function create_task(todo_name,due_date=today,importance=0,required_time=1){
       var url = "/todo/new";
-      var params = `todo_name=${todo_name}&todo_auth=${todo_auth}&due_date=${due_date}&importance=${importance}&required_time=${required_time}`;
+      var params = `todo_name=${todo_name}&due_date=${due_date}&importance=${importance}&required_time=${required_time}`;
       var http = new XMLHttpRequest();
 
       http.open("GET", url+"?"+params, true);
       http.onreadystatechange = function()
         {
             if(http.readyState == 4 && http.status == 200) {
-                alert(http.responseText);
+                add_node(todo_name, http.responseText, importance, due_date, required_time)
             }
         }
       http.send(null);
   }
+
+  {% for todo in todo_list %}
+	 
+add_node("{{todo.todo_name}}i",  "{{todo.todo_id}}", "{{todo.importance}}", "{{todo.due_date}}","{{todo.required_time}}")  
+  {% endfor %}
 </script>
+{% endblock %}

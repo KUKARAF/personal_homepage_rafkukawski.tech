@@ -23,12 +23,13 @@ def detail(request, todo_id):
     return HttpResponse(t.todo_name +'<br\>' + t.todo_auth + '<br\>' + str(t.due_date))
 def new_item(request):
     todo_name = request.GET.get('todo_name', '')
-    todo_auth = request.GET.get('todo_auth', '')
+    #todo_auth = request.GET.get('todo_auth', '')
     due_date = request.GET.get('due_date', '')
     importance = request.GET.get('importance', '1')
-    item =  todo_item(todo_name = todo_name, todo_auth = todo_auth, due_date = due_date, importance = importance) 
+    item =  todo_item(todo_name = todo_name, todo_auth = request.user.username, due_date = due_date, importance = importance) 
     item.save()
-    return HttpResponse('200')
+    
+    return HttpResponse(item.todo_id)
 
 
 def update_item(request, todo_id):    

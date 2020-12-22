@@ -7,3 +7,4 @@ class todo_item(models.Model):
     importance = models.IntegerField(default=1, blank=True)
     todo_id = models.AutoField(primary_key=True)
     required_time = models.IntegerField(default=1) # int meant to be used as relative multiplier for tasts used in pomodoro mode
+    status = models.CharField(max_length=30, choices=[('new','new'),('o','ongoing'),('d','done'),('nd','not_doing'), ('h','hidden')], default='new')
