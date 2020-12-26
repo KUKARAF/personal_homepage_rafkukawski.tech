@@ -1,8 +1,11 @@
 from django.shortcuts import render
 from django.template import loader
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from .models import todo_item
 import json
+from django.core import serializers
+from django.forms.models import model_to_dict
+
 def index(request):
     t = todo_item.objects.get(importance=1)
     return HttpResponse(t.todo_name)
@@ -19,8 +22,16 @@ def template_index(request):
 }
     return HttpResponse(template.render(context, request))
 def detail(request, todo_id):
-    t = todo_item.objects.get(pk=todo_id)
-    return HttpResponse(t.todo_name +'<br\>' + t.todo_auth + '<br\>' + str(t.due_date))
+    t = todo_item.objects.filter(todo_auth=request.user.username)
+    t_spec = t.filter(pk=todo_id)
+    data = serializers.serialize('json', t)
+    return HttpResponse(data)
+   # for item in data:
+   #     print(item)
+   #     item['product'] = model_to_dict(item['product'])
+   # return HttpResponse(json.simplejson.dumps(data), mimetype="application/json")
+
+
 def new_item(request):
     todo_name = request.GET.get('todo_name', '')
     #todo_auth = request.GET.get('todo_auth', '')
@@ -42,3 +53,9 @@ def update_item(request, todo_id):
     t.save()
     return HttpResponse('200')
 
+def status_set(request, todo_id):
+    t = todo_item.objects.filter(todo_auth=request.user.username).get(pk=todo_id)
+    t.status = request.GET.get('status')
+    t.save()
+    return HttpResponse(t.status)
+    

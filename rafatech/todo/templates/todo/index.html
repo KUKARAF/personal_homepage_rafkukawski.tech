@@ -1,13 +1,27 @@
 {% extends 'home.html' %}
 {% block content %}
 
-<div id="myDIV" class="header">
-  <h2>My To Do List</h2>
-  <input type="text" id="masterBar" placeholder="Title..." class ="bg-dark h3 w-100 text-white">
+<div id="myDIV" class="container">
+ 
 </div>
 
-<ul id="todo_container">
-</ul>
+<div class="container-fluid">
+<div class="row">
+
+  <input type="text" id="masterBar" placeholder="Title..." class ="bg-dark h3 w-100 text-white">
+</div>
+<div class="row">
+<div class="col-md-6">
+<div id="todo_container">
+</div>
+</div>
+<div class="col-md-6">
+    <! -- Place for Clock!  -->
+
+    <! -- Place for Clock!  -->
+</div>
+</div>
+</div>
 
 
 <script>
@@ -34,8 +48,33 @@
   }
   }   
 
+  function add_node (todo_name,todo_id,importance=0,due_date=today, required_time=1 ){
+    inner_html = 
+        ` 
 
-  function add_node(todo_name,todo_id,importance=0,due_date=today, required_time=1 ) {
+        <div class="btn-group" role="group">
+            <button type="button"class="btn btn-secondary" todo_id="${todo_id}" onclick="check_off(event,${todo_id},'o')">
+                <i class="fa-hammer fas"></i>
+            </button>
+            <button type = "button"class="btn btn-secondary P2 col-10 bg-dark text-white" todo_id="${todo_id}" due_date="${due_date}" required_time="${required_time}">
+                ${todo_name}
+            </button>
+            <button type="button"class="btn btn-secondary" todo_id="${todo_id}" onclick="delete_todo(event, ${todo_id})">
+                <i class="fas fa-trash"></i>
+            </button>
+        </div>
+    `
+    cont = document.getElementById("todo_container")
+    l = document.createElement('div')
+    l.classList.add("container");
+    l.classList.add("pb-1");
+    l.id = todo_id
+    l.innerHTML = inner_html 
+    cont.appendChild(l)
+
+    
+  }
+  function obfuscated_add_node(todo_name,todo_id,importance=0,due_date=today, required_time=1 ) {
     cont = document.getElementById("todo_container")
     l = document.createElement('li')
     d = document.createElement('div')
@@ -54,24 +93,35 @@
     d.setAttribute("due_date", due_date)
     d.setAttribute("required_time", required_time)
     d.innerText = todo_name
+
     l.id = todo_id
-    x.classList.add("fa-times")
+    x.classList.add("fa-hammer")
     x.classList.add("fas")
     xdiv.classList.add("col-1")
     xdiv.setAttribute("todo_id", todo_id)
     xdiv.addEventListener("click", function(){ delete_todo(event, todo_id); }); 
-    l.addEventListener("click", function(){ check_off(event,todo_id); }); 
+    l.addEventListener("dbclick", function(){ check_off(event,todo_id,"o"); }); 
     r.classList.add("row")
-    r.appendChild(d)
     xdiv.appendChild(x)
     r.appendChild(xdiv)
+    r.appendChild(d)
     l.appendChild(r)
     cont.appendChild(l)
 }
-  function check_off(event, todo_id){
-      document.getElementById(todo_id).style.textDecoration = "line-through"
-      
+  function check_off(event, todo_id, new_status ){
+      console.log("checked")
+      var url = "/todo/status";
+      var params = `status=${new_status}`;
+      var http = new XMLHttpRequest();
+
+      http.open("GET", url+"?"+params, true);
+      http.onreadystatechange = function(){
+      if(http.readyState == 4 && http.status == 200) {
+              document.getElementById(todo_id).style.textDecoration = "line-through"
+      http.send(null);
+            }
   }
+  } 
   function delete_todo(event, todo_id){
       console.log(`deleting ${todo_id}`)
       var delete_url = `/todo/delete/${todo_id}`;
