@@ -2,36 +2,76 @@
 {% block content %}
 
 <div id="myDIV" class="container">
- 
+    <!-- auto populated by script add_node function  --!>
 </div>
 
-<div class="container-fluid">
-<div class="row">
+<div class="container">
+    <div class="row">
 
-  <input type="text" id="masterBar" placeholder="Title..." class ="bg-dark h3 w-100 text-white">
-</div>
-<div class="row">
-<div class="col-md-6">
-<div id="todo_container">
-</div>
-</div>
-<div class="col-md-6">
-    <! -- Place for Clock!  -->
-
-    <! -- Place for Clock!  -->
-</div>
-</div>
+        <input type="text" id="masterBar" placeholder="New Todo ..." class ="bg-dark h3 w-100 text-white">
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div id="todo_container">
+            </div>
+        </div>
+        <div class="col-md-6 border border-success rounded">
+            <!-- Place for Clock!  -->
+            <div class="container">
+                <div class="row text-align-center" style="font-size: 50px">
+                    <div class="text-white col-md-6" id = "minute_time_remain" style="display: inline; text-align: right">25</div>
+                    <div class="text-white col-md-1" id = "time_seperator" style="display: inline">:</div>
+                    <div class="text-white col-md-5" id = "second_time_remain" style="display: inline; text-align: left">00</div>
+                </div>
+                <div class="row">
+                    <div class="btn-group" role="group" aria-label="work-control">
+                        <button id="start_timer" class="btn btn-secondary bg-dark" >start</button>
+                        <button id="stop_timer" class="btn btn-secondary bg-dark" >stop</button>
+                        <button id="finish_tast" class="btn btn-secondary bg-dark" >task done</button>
+                        <button id="add_minute" class="btn btn-secondary bg-dark" >add minute</button>
+                    </div>
+                </div>
+                <div id="seperator_line" class="row"></div>
+                <div id="task_container" class="rowi text-white">currently working on task: 
+                <div id="working_on_name" class="col-md-3 text-white"></div>
+                <div id="working_on_amount" class="cool-md-3 text-white"></div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 
 <script>
 //communication with the server:
+  var breaks_taken = 0;
+  var work_time = 25;
+  document.getElementById("minute_time_remain").innerHTML = 25
   var today = new Date();
   var dd = String(today.getDate()).padStart(2, '0');
   var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
   var yyyy = today.getFullYear();
   today = mm + '/' + dd + '/' + yyyy
 
+  //timer init 
+
+  var tickerVar = setInterval(tick, 1000); 
+  min_tr = document.getElementById("minute_time_remain")
+  s_tr = document.getElementById("second_time_remain")
+
+  function tick(){
+      if(s_tr.innerHTML == 0 && min_tr.innerHTML == 0){
+          console.log(s_tr.innerHTML)
+          console.log(min_tr.innerHTML)
+          window.clearInterval(tickerVar)
+      }else if(min_tr.innerHTML > 0 && s_tr.innerHTML <= 0  ){
+          s_tr.innerHTML = 60; 
+          min_tr.innerHTML = min_tr.innerHTML - 1; 
+      }else if(s_tr.innerHTML >= 0 && min_tr.innerHTML >= 0 ){
+          s_tr.innerHTML = s_tr.innerHTML - 1 
+     }
+  }
+  
   function parse_input_box(event){
   bar = document.getElementById("masterBar")
   importance_regex = "([P])[0-9]\\s"
@@ -53,13 +93,13 @@
         ` 
 
         <div class="btn-group" role="group">
-            <button type="button"class="btn btn-secondary" todo_id="${todo_id}" onclick="check_off(event,${todo_id},'o')">
+            <button type="button"class="btn btn-warning" todo_id="${todo_id}" onclick="check_off(event,${todo_id},'o')">
                 <i class="fa-hammer fas"></i>
             </button>
             <button type = "button"class="btn btn-secondary P2 col-10 bg-dark text-white" todo_id="${todo_id}" due_date="${due_date}" required_time="${required_time}">
                 ${todo_name}
             </button>
-            <button type="button"class="btn btn-secondary" todo_id="${todo_id}" onclick="delete_todo(event, ${todo_id})">
+            <button type="button"class="btn btn-dark border" todo_id="${todo_id}" onclick="delete_todo(event, ${todo_id})">
                 <i class="fas fa-trash"></i>
             </button>
         </div>
@@ -74,40 +114,6 @@
 
     
   }
-  function obfuscated_add_node(todo_name,todo_id,importance=0,due_date=today, required_time=1 ) {
-    cont = document.getElementById("todo_container")
-    l = document.createElement('li')
-    d = document.createElement('div')
-    r = document.createElement('div')
-    
-    xdiv = document.createElement('div')
-    x = document.createElement('i')
-
-    l.classList.add("container");
-    
-    d.classList.add("P"+String(importance));
-    d.classList.add("col-10");
-    d.classList.add("bg-dark"); 
-    d.classList.add("text-white");
-    d.setAttribute("todo_id", todo_id)
-    d.setAttribute("due_date", due_date)
-    d.setAttribute("required_time", required_time)
-    d.innerText = todo_name
-
-    l.id = todo_id
-    x.classList.add("fa-hammer")
-    x.classList.add("fas")
-    xdiv.classList.add("col-1")
-    xdiv.setAttribute("todo_id", todo_id)
-    xdiv.addEventListener("click", function(){ delete_todo(event, todo_id); }); 
-    l.addEventListener("dbclick", function(){ check_off(event,todo_id,"o"); }); 
-    r.classList.add("row")
-    xdiv.appendChild(x)
-    r.appendChild(xdiv)
-    r.appendChild(d)
-    l.appendChild(r)
-    cont.appendChild(l)
-}
   function check_off(event, todo_id, new_status ){
       console.log("checked")
       var url = "/todo/status";
@@ -117,6 +123,7 @@
       http.open("GET", url+"?"+params, true);
       http.onreadystatechange = function(){
       if(http.readyState == 4 && http.status == 200) {
+              document.getElementById("working_on_name").innerHTML = document.getElementById(todo_id).getElementsByTagName("button")[1].innerTex
               document.getElementById(todo_id).style.textDecoration = "line-through"
       http.send(null);
             }

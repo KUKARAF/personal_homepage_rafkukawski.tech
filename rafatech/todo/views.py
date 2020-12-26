@@ -6,6 +6,10 @@ import json
 from django.core import serializers
 from django.forms.models import model_to_dict
 
+def user_specific_todo(request,todo_id):
+
+    t = todo_item.objects.filter(todo_auth=request.user.username)
+    return t.filter(pk=todo_id)
 def index(request):
     t = todo_item.objects.get(importance=1)
     return HttpResponse(t.todo_name)
@@ -58,4 +62,4 @@ def status_set(request, todo_id):
     t.status = request.GET.get('status')
     t.save()
     return HttpResponse(t.status)
-    
+        
