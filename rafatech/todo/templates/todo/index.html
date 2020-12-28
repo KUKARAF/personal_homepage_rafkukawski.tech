@@ -28,14 +28,21 @@
                 <button id="stop_timer" class="btn btn-secondary bg-dark" onclick="stop_work()" >stop</button>
                 <button id="break_timer" class="btn btn-secondary bg-dark" onclick="break_work()" >break</button>
                 <button id="finish_task" class="btn btn-secondary bg-dark" >task done</button>
-                <button id="add_minute" class="btn btn-secondary bg-dark" >add minute</button>
+                <button id="add_minute" class="btn btn-secondary bg-dark" onclick="add_min()">add minute</button>
             </div>
         </div>
-        <div id="seperator_line" class=""><br/><br/>
+        <div class="">
+<br>
+<br>
+<h2 id="task_container" class="text-white border-bottom border-white">currently working on</h2>
+            </div>
         </div>
-        <div id="task_container" class="row text-white"> 
-            <div id="working_on_name" class="col-md-12 text-white border-bottom"></div>
-        </div>
+        
+        <h5>
+            <span id="importance" class="badge badge-secondary bg-warning m-1">importance</span>
+            <span id="time" class="badge badge-secondary bg-danger">time</span>
+            <span id="due_date" class="badge badge-secondary bg-primary">due_date</span>
+        </h5>
     </div>
         </div>
         </div>
@@ -46,7 +53,7 @@
             //communication with the server:
             var breaks_taken = 0;
             var work_time = 25;
-            document.getElementById("minute_time_remain").innerHTML = 25
+            document.getElementById("minute_time_remain").innerHTML = work_time
             var today = new Date();
             var dd = String(today.getDate()).padStart(2, '0');
             var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
@@ -90,13 +97,18 @@
                 if (current_mode == "start"){
                     console.log("stopping ongoing work")
                     clearInterval(tickervar);
-                    
                     current_mode = "stop"
+                    min_tr.innerHTML = work_time 
+                    s_tr.innerHTML = 00
                 } else if (current_mode == "stop"){
                     console.log("already stopped, not doing anythin")
+                    min_tr.innerHTML = work_time 
+                    s_tr.innerHTML = 00
                 } else if (current_mode == "break"){
                     console.log("stopping break")
-                    clearInterval(tickserver);
+                    min_tr.innerHTML = work_time 
+                    s_tr.innerHTML = 00
+                    clearInterval(tickervar);
                     current_mode = "stop"
                 }
                 b_stop.classList.remove("bg-dark")
@@ -106,17 +118,23 @@
                 b_start.classList.remove("bg-success")
                 b_start.classList.add("bg-dark")
             }
+
+            function done_work(){
+                
+            }
             function break_work(t=5){
                 if (current_mode == "start"){
                     console.log("ending work starting break")
                     min_tr.innerHTML = t 
                     s_tr.innerHTML = 00
+                    current_mode = "break"
 
                 } else if (current_mode == "stop"){
                     console.log("starting break timer")
                     min_tr.innerHTML = t 
                     s_tr.innerHTML = 00
-                    tickervar = setinterval(tick, 1000); 
+                    tickervar = setInterval(tick, 1000); 
+                    current_mode = "break"
                 } else if (current_mode == "break"){
                     console.log("already on a break. Not doing anything")
                 }
@@ -189,6 +207,27 @@
             }
 
             document.getElementById("todo_container").childNodes[0]
+var out
+function get_details(todo_id){
+
+                var http = new XMLHttpRequest();
+    var url = `/todo/detail/${todo_id}.json`
+                http.open("GET", url, true);
+
+    http.onreadystatechange = function(){
+                    if(http.readyState == 4 && http.status == 200) {
+data = JSON.parse(this.response)
+                        console.log(data[0].fields["todo_name"])
+                        document.getElementById("task_container").innerText = data[0].fields["todo_name"]
+                        document.getElementById("task_container").setAttribute("todo_id", todo_id)
+                        document.getElementById("importance").innerText = data[0].fields["importance"]
+                        document.getElementById("time").innerText = data[0].fields["required_time"]
+                        document.getElementById("due_date").innerText = data[0].fields["due_date"]
+                    }
+
+                }
+                http.send(null);
+}
             function check_off(event, todo_id, new_status ){
                 console.log("checked")
                 nodes = document.getElementById("todo_container").childNodes
@@ -208,29 +247,35 @@
                 http.onreadystatechange = function(){
                     if(http.readyState == 4 && http.status == 200) {
                         document.getElementById(todo_id).classList.add("border-warning")
+                        get_details(todo_id)
 
-                        document.getElementById("working_on_name").innerHTML = document.getElementById(todo_id).getElementsByTagName("button")[1].innerText
-                        document.getElementById("working_on_amount").innerHTML = document.getElementById(todo_id).getElementsByTagName("button")[1].innerText
                     }
                 }
                 http.send(null);
             } 
-            function delete_todo(event, todo_id){
-                console.log(`deleting ${todo_id}`)
-                var delete_url = `/todo/delete/${todo_id}`;
-                var http = new XMLHttpRequest();
-                if (confirm("Are you sure?")){
-                    http.open("GET", delete_url);
+function add_min(){
+    document.getElementById("minute_time_remain").innerText = Number(document.getElementById("minute_time_remain").innerText) + 1
+}
+function finish_todo(){
+    todo_id = document.getElementById("task_container").getAttribute("todo_id"); 
+    
+} 
+function delete_todo(event, todo_id){
+    console.log(`deleting ${todo_id}`)
+    var delete_url = `/todo/delete/${todo_id}`;
+    var http = new XMLHttpRequest();
+    if (confirm("Are you sure?")){
+        http.open("GET", delete_url);
 
-                    http.onreadystatechange = function()
-                    {
-                        if(http.readyState == 4 && http.status == 200) {
-                            document.getElementById(todo_id).remove()
-                        }
-                    }
-                    http.send(null);}
-
+        http.onreadystatechange = function()
+        {
+            if(http.readyState == 4 && http.status == 200) {
+                document.getElementById(todo_id).remove()
             }
+        }
+        http.send(null);}
+
+}
 
 
             document.getElementById("masterBar").addEventListener("keydown", parse_input_box);

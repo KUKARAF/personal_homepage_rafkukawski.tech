@@ -19,7 +19,7 @@ def delete(request, todo_id):
     return HttpResponse('succesfully deleted task %s' % todo_id) 
 
 def template_index(request): 
-    todo_list = todo_item.objects.order_by('-due_date')
+    todo_list = todo_item.objects.filter(todo_auth=request.user.username).order_by('-due_date')
     template = loader.get_template('todo/index.html')
     context = {
 	'todo_list': todo_list
@@ -28,7 +28,7 @@ def template_index(request):
 def detail(request, todo_id):
     t = todo_item.objects.filter(todo_auth=request.user.username)
     t_spec = t.filter(pk=todo_id)
-    data = serializers.serialize('json', t)
+    data = serializers.serialize('json', t_spec)
     return HttpResponse(data)
    # for item in data:
    #     print(item)
