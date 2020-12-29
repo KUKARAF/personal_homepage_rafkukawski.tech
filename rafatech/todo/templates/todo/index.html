@@ -6,45 +6,58 @@
         </div>
 
         <div class="container">
-        <div class="row">
+            <div class="row">
 
-        <input type="text" id="masterBar" placeholder="New Todo ..." class ="bg-dark h3 w-100 text-white">
-        </div>
-        <div class="row">
-        <div class="col-md-6">
-        <div id="todo_container"></div>
-        </div>
-        <div class="col-md-6 ">
-        <!-- Place for Clock!  -->
-    <div class="container">
-        <div class="row text-align-center" style="font-size: 50px">
-            <div class="text-white col-md-6" id = "minute_time_remain" style="display: inline; text-align: right">25</div>
-            <div class="text-white col-md-1" id = "time_seperator" style="display: inline">:</div>
-            <div class="text-white col-md-5" id = "second_time_remain" style="display: inline; text-align: left">00</div>
-        </div>
-        <div class="row">
-            <div class="btn-group" role="group" aria-label="work-control">
-                <button id="start_timer" class="btn btn-secondary bg-dark" onclick="init_work()" >start</button>
-                <button id="stop_timer" class="btn btn-secondary bg-dark" onclick="stop_work()" >stop</button>
-                <button id="break_timer" class="btn btn-secondary bg-dark" onclick="break_work()" >break</button>
-                <button id="finish_task" class="btn btn-secondary bg-dark" >task done</button>
-                <button id="add_minute" class="btn btn-secondary bg-dark" onclick="add_min()">add minute</button>
             </div>
-        </div>
-        <div class="">
-<br>
-<br>
-<h2 id="task_container" class="text-white border-bottom border-white">currently working on</h2>
+            <div class="row">
+                <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-12">
+                    
+<div class="input-group mb-3" >
+  <span class="input-group-text bg-warning text-white" id="inp_importance">0</span>
+  <span class="input-group-text bg-danger text-white" id="inp_required_time">1</span>
+  <input type="text" id="masterBar" placeholder="New Todo ..." class="form-control bg-dark text-white" aria-label="">
+  <span class="input-group-text bg-primary text-white" id="inp_due_date">Today</span>
+</div>
+                    
+                    </div>
+                </div>
+                <!--input type="text" id="masterBar" placeholder="New Todo ..." class ="bg-dark h3 w-100 text-white"--!>
+                <div id="todo_container">
+                </div>
+                </div>
+                <div class="col-md-6 ">
+                <!-- Place for Clock!  -->
+                    <div class="container">
+                        <div class="row text-align-center" style="font-size: 50px">
+                            <div class="text-white col-md-6" id = "minute_time_remain" style="display: inline; text-align: right">25</div>
+                            <div class="text-white col-md-1" id = "time_seperator" style="display: inline">:</div>
+                            <div class="text-white col-md-5" id = "second_time_remain" style="display: inline; text-align: left">00</div>
+                        </div>
+                        <div class="row">
+                            <div class="btn-group" role="group" aria-label="work-control">
+                                <button id="start_timer" class="btn btn-secondary bg-dark" onclick="init_work()" >start</button>
+                                <button id="stop_timer" class="btn btn-secondary bg-dark" onclick="stop_work()" >stop</button>
+                                <button id="break_timer" class="btn btn-secondary bg-dark" onclick="break_work()" >break</button>
+                                <button id="finish_task" class="btn btn-secondary bg-dark" >task done</button>
+                                <button id="add_minute" class="btn btn-secondary bg-dark" onclick="add_min()">add minute</button>
+                            </div>
+                        </div>
+                        <div class="">
+                            <br>
+                            <br>
+                            <h2 id="task_container" class="text-white border-bottom border-white">currently working on</h2>
+                        </div>
+                    </div>
+
+                    <h5>
+                        <span id="importance" class="badge badge-secondary bg-warning m-1">importance</span>
+                        <span id="time" class="badge badge-secondary bg-danger">time</span>
+                        <span id="due_date" class="badge badge-secondary bg-primary">due_date</span>
+                    </h5>
+                </div>
             </div>
-        </div>
-        
-        <h5>
-            <span id="importance" class="badge badge-secondary bg-warning m-1">importance</span>
-            <span id="time" class="badge badge-secondary bg-danger">time</span>
-            <span id="due_date" class="badge badge-secondary bg-primary">due_date</span>
-        </h5>
-    </div>
-        </div>
         </div>
         </div>
 
@@ -53,6 +66,8 @@
             //communication with the server:
             var breaks_taken = 0;
             var work_time = 25;
+            var importance
+            var required_time
             document.getElementById("minute_time_remain").innerHTML = work_time
             var today = new Date();
             var dd = String(today.getDate()).padStart(2, '0');
@@ -166,15 +181,20 @@
                 required_time_regex = "([D])[0-9]\\s"
                 try{
                     importance = bar.value.match(importance_regex)[0].replace(" ", "").replace("P","")
-                
+                    document.getElementById("inp_importance").innerText = importance
+                    bar.value = bar.value.replace("P"+importance," ")
                 }
                 catch{importance=0}
-                try{required_time = bar.value.match(required_time_regex)[0].replace(" ", "").replace("D","")} catch{required_time=1}
+                try{
+                    required_time = bar.value.match(required_time_regex)[0].replace(" ", "").replace("D","")
+                    document.getElementById("inp_required_time").innerText = required_time                    
+                    bar.value = bar.value.replace("D"+required_time,"")
+                } catch{required_time=1}
                 todo_name = bar.value.replace(importance_regex, "")
                 console.log(`importance is ${importance} and required time is ${required_time}`)
                 if (event.keyCode == 13 ) {
                     console.log('Enter pressed')
-                    create_task(todo_name,today,  importance,required_time)
+                    create_task(todo_name,today, document.getElementById("inp_importance").value ,document.getElementById("inp_required_time").value)
                 } else /* fullscreenerror */ {
                     /* handle a full screen toggle error */
                 }
@@ -203,7 +223,7 @@
                 l.classList.add("pb-1");
                 l.id = todo_id
                 l.innerHTML = inner_html 
-                cont.appendChild(l)
+                cont.prepend(l)
 
 
             }
@@ -251,9 +271,13 @@ data = JSON.parse(this.response)
                 l_nodes = nodes.length
 
                 for (let l of nodes) {
-                    d_todo_id = l.getAttribute("id");
+                    console.log(l)
+                    d_todo_id = l.id;
                     set_status(d_todo_id, "new",function a(){console.log("set_to_new")})
+                    try{
+                    
                     l.classList.remove("border-warning")
+                    }catch{console.log("warning color not removed")}
                 }
                 set_status(todo_id, new_status,function a(){ document.getElementById(todo_id).classList.add("border-warning");get_details(todo_id)})
             }
@@ -283,7 +307,7 @@ function delete_todo(event, todo_id){
 
 
             document.getElementById("masterBar").addEventListener("keydown", parse_input_box);
-            function create_task(todo_name,due_date=today,importance=0,required_time=1){
+            function create_task(todo_name,due_date,importance,required_time){
                 var url = "/todo/new";
                 var params = `todo_name=${todo_name}&due_date=${due_date}&importance=${importance}&required_time=${required_time}`;
                 var http = new XMLHttpRequest();
