@@ -119,9 +119,7 @@
                 b_start.classList.add("bg-dark")
             }
 
-            function done_work(){
                 
-            }
             function break_work(t=5){
                 if (current_mode == "start"){
                     console.log("ending work starting break")
@@ -166,7 +164,11 @@
                 bar = document.getElementById("masterBar")
                 importance_regex = "([P])[0-9]\\s"
                 required_time_regex = "([D])[0-9]\\s"
-                try{importance = bar.value.match(importance_regex)[0].replace(" ", "").replace("P","")} catch{importance=0}
+                try{
+                    importance = bar.value.match(importance_regex)[0].replace(" ", "").replace("P","")
+                
+                }
+                catch{importance=0}
                 try{required_time = bar.value.match(required_time_regex)[0].replace(" ", "").replace("D","")} catch{required_time=1}
                 todo_name = bar.value.replace(importance_regex, "")
                 console.log(`importance is ${importance} and required time is ${required_time}`)
@@ -228,15 +230,7 @@ data = JSON.parse(this.response)
                 }
                 http.send(null);
 }
-            function check_off(event, todo_id, new_status ){
-                console.log("checked")
-                nodes = document.getElementById("todo_container").childNodes
-                l_nodes = nodes.length
-
-                for (let l of nodes) {
-                    console.log(l);
-                    l.classList.remove("border-warning")
-                }
+            function set_status(todo_id, new_status,f){
 
                 var url = `/todo/status/${todo_id}`;
                 var params = `status=${new_status}`;
@@ -246,13 +240,23 @@ data = JSON.parse(this.response)
 
                 http.onreadystatechange = function(){
                     if(http.readyState == 4 && http.status == 200) {
-                        document.getElementById(todo_id).classList.add("border-warning")
-                        get_details(todo_id)
-
+                        f()
                     }
                 }
                 http.send(null);
-            } 
+            }
+            function check_off(event, todo_id, new_status ){
+                console.log("checked")
+                nodes = document.getElementById("todo_container").childNodes
+                l_nodes = nodes.length
+
+                for (let l of nodes) {
+                    d_todo_id = l.getAttribute("id");
+                    set_status(d_todo_id, "new",function a(){console.log("set_to_new")})
+                    l.classList.remove("border-warning")
+                }
+                set_status(todo_id, new_status,function a(){ document.getElementById(todo_id).classList.add("border-warning");get_details(todo_id)})
+            }
 function add_min(){
     document.getElementById("minute_time_remain").innerText = Number(document.getElementById("minute_time_remain").innerText) + 1
 }
