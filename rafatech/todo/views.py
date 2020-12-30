@@ -19,7 +19,7 @@ def delete(request, todo_id):
     return HttpResponse('succesfully deleted task %s' % todo_id) 
 
 def template_index(request): 
-    todo_list = todo_item.objects.filter(todo_auth=request.user.username).order_by('-due_date')
+    todo_list = todo_item.objects.filter(todo_auth=request.user.username).exclude(status='d').order_by('-due_date')
     template = loader.get_template('todo/index.html')
     context = {
 	'todo_list': todo_list
@@ -40,11 +40,14 @@ def new_item(request):
     todo_name = request.GET.get('todo_name', '')
     #todo_auth = request.GET.get('todo_auth', '')
     due_date = request.GET.get('due_date', '')
-    importance = request.GET.get('importance', '1')
-    item =  todo_item(todo_name = todo_name, todo_auth = request.user.username, due_date = due_date, importance = importance) 
+    print(due_date)
+    print("__________________________")
+    importance = request.GET.get('importance', '0')
+    required_time = request.GET.get('required_time', '1')
+    item =  todo_item(todo_name = todo_name, todo_auth = request.user.username, due_date = due_date, importance = importance, required_time = required_time) 
     item.save()
     
-    return HttpResponse(item.todo_id)
+    return HttpResponse(item.due_date)
 
 
 def update_item(request, todo_id):    
