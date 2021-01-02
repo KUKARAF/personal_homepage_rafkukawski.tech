@@ -1,0 +1,313 @@
+<!-- templates/home.html -->
+{% extends 'base.html' %}
+
+{% load static %}
+{% block title %}Home{% endblock %}
+
+
+{% block content %}
+
+<style>
+#left_container{background-color: rgba(255, 255, 255, 0.5)}
+.socials{font-size: xx-large; color:black !important}
+
+#main_img{
+    border-radius: 50%;
+    max-width: 150px;
+}
+.main_container{
+background-image: url("{% static 'home/city-bg.jpg' %}");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+#first-parallax{
+
+  background-image: url("{% static 'home/new-code-bg.png' %}");
+}
+#second-parallax{
+
+  background-image: url("{% static 'home/monitor-bg.jpg' %}");
+}
+.parallax {
+  /* The image used */
+
+  /* Set a specific height */
+  height: 500px;
+
+  /* Create the parallax scrolling effect */
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.blinking-cursor {
+  font-weight: 100;
+  color: #2E3D48;
+  -webkit-animation: 1s blink step-end infinite;
+  -moz-animation: 1s blink step-end infinite;
+  -ms-animation: 1s blink step-end infinite;
+  -o-animation: 1s blink step-end infinite;
+  animation: 1s blink step-end infinite;
+}
+
+@keyframes "blink" {
+  from, to {
+    color: transparent;
+  }
+  50% {
+    color: black;
+  }
+}
+
+@-moz-keyframes blink {
+  from, to {
+    color: transparent;
+  }
+  50% {
+    color: black;
+  }
+}
+
+@-webkit-keyframes "blink" {
+  from, to {
+    color: transparent;
+  }
+  50% {
+    color: black;
+  }
+}
+
+@-ms-keyframes "blink" {
+  from, to {
+    color: transparent;
+  }
+  50% {
+    color: black;
+  }
+}
+
+@-o-keyframes "blink" {
+  from, to {
+    color: transparent;
+  }
+  50% {
+    color: black;
+  }
+}
+
+</style>
+
+
+
+
+<div class="container-fluid vh-100 main_container text-dark"><!-- main header part --!>
+    <div class="row">
+        <div id="left_container" class="col-md-3 col-sm-12  vh-100">
+            <div class="row">
+                <div class="profiel_container text-center mt-5">
+                    <img src="{% static 'home/rafa.jpg' %}" id="main_img"></img>
+                </div>
+            </div>
+            <div class="row text-center text-dark">
+                <h1>Rafal Kukawski</h1>
+                <h5>FULL-STACK SOFTWARE ENGINEER</h5>
+            </div>
+
+            <div class="row vh-50">
+                <!-- placeholder for filler so the social links are on the bottom --!>
+            </div>
+            
+            <div class="row socials">
+                <a class="col text-center text-dark" href="https://github.com/KUKARAF">
+                    <i class="fab fa-github"></i>
+                </a>
+                <a class="col text-center text-dark" href="https://www.facebook.com/Rafalku94/">
+                    <i class="fab fa-facebook"></i>
+                </a>
+                <a class="col text-center text-dark" href="Tel:+4367763491888">
+                    <i class="fas fa-phone"></i>
+                </a>
+                <a class="col text-center text-dark" href=:"mailto:rafal.kuka94@gmail.com">
+                    <i class="fas fa-at"></i>
+                </a>
+            </div>
+        </div>
+
+        <div id="right_container" class="col-md-9 col-s-12 vh-100">
+            <div class="text_container m-5">
+                <h1>Hi, I'm Rafa,</h1>
+                <h2> a freelance web dev specialized in
+                <br/><b>both front-end and back-end</b>.</h2>
+                <br/><br/>
+                <span> You can focus on your buisness while i take care of your <span id="activity">Website</span>
+                <span class="blinking-cursor">|</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div id="first-parallax" class="container-fluid bg-danger  parallax">
+<!-- parallax bg with code --!>
+<div class="text_over_code text-center">
+</div>
+
+</div>
+
+
+<!-- </div>
+</div>
+--!>
+
+
+<div class="container-fluid bg-dark vh-100"><!-- main header part --!>
+    <div id="skill_header" class="row">
+        <h1 class="text-center mt-3 border-bottom">SKILLS</h1>
+    </div>
+    <div class="row">
+        <div class="col-md-6 col-s-12 text-center mb-5">
+            <h1>Bootstrap 5.0</h1>
+            <div class="text-center display-1">
+                <i class="fab fa-bootstrap "></i>
+            </div>
+        </div>
+
+
+        <div class="col-md-6 col-s-12 text-center mb-5">
+            <h1>JavaScript</h1>
+            <div class="text-center display-1">
+                <i class="fab fa-js-square"></i>
+            </div>
+        </div>
+
+
+        <div class="col-md-4 col-s-12 text-center mb-5">
+            <h1>Python</h1>
+            <div class="text-center display-1">
+                <i class="fab fa-python"></i>
+            </div>
+        </div>
+
+
+
+
+        <div class="col-md-4 col-s-12 text-center mb-5">
+        <h1>Unix Terminal</h1>
+    <div class="text-center display-1">
+    <i class="fas fa-terminal"></i>
+    </div>
+    </div>
+
+
+
+    <div class="col-md-4 col-s-12 text-center mb-5">
+    <h1>HTML 5</h1>
+    <div class="text-center display-1">
+    <i class="fab fa-html5"></i>
+    </div>
+    </div>
+
+
+
+
+
+    <div class="col-md-6 col-s-12 text-center mb-5">
+    <h1>Linux</h1>
+    <div class="text-center display-1">
+    <i class="fab fa-linux"></i>
+    </div>
+    </div>
+
+
+
+
+    <div class="col-md-6 col-s-12 text-center mb-5">
+    <h1>Git</h1>
+    <div class="text-center display-1">
+    <i class="fab fa-git"></i>
+    </div>
+    </div>
+
+
+
+    </div>
+    </div>
+</div>
+
+
+
+
+<div id="second-parallax" class="container-fluid bg-danger vh-25 parallax">
+
+<!-- parallax bg with code --!>
+
+</div>
+
+
+
+<div class="container-fluid bg-dark">
+<div id="contact_me_header" class="row">
+<h1 class="text-center text-whiter">
+Get in touch
+</h1>
+<form>
+<div class="row">
+
+  <div class="mb-3">
+    <label for="InputEmail" class="form-label">Email address</label>
+    <input type="email" class="form-control bg-dark text-white" id="exampleInputEmail1" aria-describedby="emailHelp">
+    <div id="emailHelp" class="form-text"></div>
+  </div>
+  <div class="mb-3 ">
+    <label for="Su bject" class="form-label ">What is it about?</label>
+    <input type="password" class="form-control  bg-dark text-white" id="exampleInputPassword1">
+  </div>
+
+
+  <div class="mb-4">
+  <label for="floatingTextarea2">Message</label>
+  <textarea class="form-control bg-dark text-white" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px"></textarea>
+
+</div>
+</div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+</div>
+</div>
+
+<script>
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+word_list = ["internet presence.","social media.","online CV.","blog.","store.","Website."]
+async function replace(word_list) {
+  //await sleep(500);
+  // Sleep in loop
+
+  wll = word_list.length
+  for(let wli = 0; wli < wll; wli++){
+
+      a= document.getElementById("activity") 
+      al = a.innerText.length
+      for (let i = 0; i < al; i++) {
+          await sleep(50);
+          a.innerText= a.innerText.slice(0, -1);
+      }
+      word = word_list[wli]
+      wl = word.length
+      for (let i = 0; i < wl; i++) {
+          await sleep(80);
+          a.innerText= a.innerText+word[i]
+      }
+      await sleep(3000);
+  }
+await sleep(5000)
+replace(word_list)
+}
+replace(word_list)
+//load();
+</script>
+{% endblock %}
+
