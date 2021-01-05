@@ -7,5 +7,6 @@ class Painting(models.Model):
     painting_id = models.AutoField(primary_key=True)
     painting_price = models.CharField(max_length=10)
     painting_desc = models.CharField(max_length=300)
-    upload = models.FileField(upload_to='uploads/')
+    upload = models.FileField(upload_to='static/ap/uploads/')
+    painting_dimensions = models.CharField(max_length=30)
 
