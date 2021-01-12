@@ -1,0 +1,85 @@
+<!-- templates/ap/en_home.html -->
+{% extends 'ap/en/base.html' %}
+
+
+{% load static %}
+{% block title %}Home{% endblock %}
+
+
+{% block content %}
+<style>
+.description-box{
+background: rgb(243, 243, 243) none repeat scroll 0% 0%;
+}
+.h-0{
+    filter: grayscale(100%);
+}
+</style>
+<script>
+function show_all(){
+hi = document.getElementsByClassName("h-0")
+hil = hi.length
+for(var i = 0; i<hil; i++){
+hi[i].classList.remove("h-0")
+}}
+function show_on_main(url, img){document.getElementById("main_foto").src=url ;show_all(); img.classList.add("h-0")}
+</script>
+<div class="container-fluid">
+    <div class="row  mb-5">
+        <div class="col-2" id = "iamge_preview">
+        
+            <img src="/{{painting.upload}}" class="img-fluid m-1 h-0" alt="" onclick="show_on_main('/{{painting.upload}}',this)")>
+            {% for i in images %}
+            <img src="/{{i.image}}" class="img-fluid m-1" alt="" onclick="show_on_main('/{{i.image}}',this)")>
+            {% endfor %}
+        </div>
+        <div class="col-10">
+            <img id="main_foto"src="/{{painting.upload}}" alt="" class="img-fluid" >
+        </div>
+    </div>
+
+<div class="container-fluid description-box">
+
+<h1>
+
+
+        {{painting.painting_name}}
+</h1>
+<div id="artist">
+  {{painting.painting_author}}
+</div>
+<br>
+<div id="dimensions">
+
+       Dimensions:  {{painting.painting_dimensions}}
+</div>
+
+
+
+
+{{painting.painting_desc}}
+
+
+    <div class="row bg-dark text-white" id="price-bar">
+        <div class="col-8 mt-2">
+
+<h1>
+       € {{painting.painting_price}} EUR
+</h1>
+        </div>
+        <div class="col-4 mt-2 ">
+            <div class="row m-2">
+
+<button type="button" class="btn btn-danger">Danger</button>
+            </div>
+            <div class="row m-2">
+                <button type="button" class="btn btn-outline-secondary">Secondary</button>
+            </div>
+        </div>
+
+
+    </div>
+
+</div>
+</div>
+{% endblock %}
