@@ -1,0 +1,57 @@
+
+{% extends 'ap/en/base.html' %}
+{% block content %}
+
+
+{% if messages %}
+<div class="messages alert alert-success m-2" role="alert">
+    {% for message in messages %}
+    <div  {% if message.tags %} class=" {{ message.tags }} " {% endif %}> {{ message }} </div>
+    {% endfor %}
+</div>
+{% endif %}
+
+
+{% if form.errors %}
+    {% for field in form %}
+        {% for error in field.errors %}
+            <div class="alert alert-danger">
+                <strong>{{ error|escape }}</strong>
+            </div>
+        {% endfor %}
+    {% endfor %}
+    {% for error in form.non_field_errors %}
+        <div class="alert alert-danger">
+            <strong>{{ error|escape }}</strong>
+        </div>
+    {% endfor %}
+{% endif %}
+
+<h1>add additional images</h1>
+
+<form  method="post" name="img_form" enctype="multipart/form-data" >
+ 
+        {% csrf_token %}
+
+ {{ form.as_p }}
+ <input type = 'submit' value='Save'class='' >
+</form>
+
+
+ <script>
+
+            function img_submit(painting_id){
+                var http = new XMLHttpRequest();
+                var url = `/ap/img/${painting_id}`
+                http.open("POST", url, true);
+                http.onreadystatechange = function(){
+                    if(http.readyState == 4 && http.status == 200) {
+                        console.log("uploaded")
+                    }
+
+    }
+    http.send(null);
+}
+
+ </script>
+{% endblock %}
