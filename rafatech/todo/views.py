@@ -6,6 +6,28 @@ import json
 from django.core import serializers
 from django.forms.models import model_to_dict
 
+
+from .forms import ContactForm
+
+def get_name(request):
+    # if this is a POST request we need to process the form data
+    if request.method == 'POST':
+        # create a form instance and populate it with data from the request:
+        form = ContactForm(request.POST)
+        # check whether it's valid:
+        if form.is_valid():
+            # process the data in form.cleaned_data as required
+            # ...
+            # redirect to a new URL:
+            return HttpResponseRedirect('/thanks/')
+
+    # if a GET (or any other method) we'll create a blank form
+    else:
+        form = ContactForm()
+
+    return render(request, 'contact.html', {'form': form})
+
+
 def user_specific_todo(request,todo_id):
 
     t = todo_item.objects.filter(todo_auth=request.user.username)

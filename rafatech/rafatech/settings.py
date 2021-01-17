@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 from pathlib import Path
-from .secret import secret_settings_key
+from .secret import secret_settings_key, EMAIL_PASSWORD 
 import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -29,11 +29,33 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 
-# Application definition
+#email init 
 
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.sendgrid.net'
+EMAIL_HOST_USER = 'sendgridusername'
+EMAIL_HOST_PASSWORD = 'sedgridpasseord'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = 'yourmail@site.com'
+
+
+import os.path
+STATIC_ROOT = ''
+
+STATIC_URL = '/static/'
+
+STATICFILES_DIRS = ( os.path.join('static'), )
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+
+# Application definition
+#STATIC_URL = ['static']
 INSTALLED_APPS = [
     'todo',
-    #'todo.models',
+    'alicjas_paintings',
+    'crispy_forms',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -50,6 +72,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
 ]
 
 ROOT_URLCONF = 'rafatech.urls'
@@ -57,7 +80,7 @@ ROOT_URLCONF = 'rafatech.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-         'DIRS': [os.path.join(BASE_DIR, 'todo/templates')],
+         'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
