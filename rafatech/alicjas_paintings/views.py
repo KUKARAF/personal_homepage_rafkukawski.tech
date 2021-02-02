@@ -13,8 +13,13 @@ from .models import Painting, Imgs
 from .forms import Painting_form, Img_form, SignUpForm
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login, authenticate
+from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.contrib import messages
 from django.shortcuts import redirect
+import time
+
+
+
 def signup(request):
     if request.method == 'POST':
         form = SignUpForm(request.POST)
@@ -24,19 +29,11 @@ def signup(request):
             user.save()
             current_site = get_current_site(request)
 
-            #username = form.cleaned_data.get('username')
-            #raw_password = form.cleaned_data.get('password1')
+            username = form.cleaned_data.get('username')
+            raw_password = form.cleaned_data.get('password1')
             #user = authenticate(username=username, password=raw_password)
-            #login(request, user)
-            subject = 'Activate Your MySite Account'
-            message = render_to_string('account_activation_email.html', {
-            'user': user,
-            'domain': current_site.domain,
-            'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-            'token': account_activation_token.make_token(user),
-            })
-            user.email_user(subject, messages)
-            return redirect('/account_activation_sent')
+            login(request, user)
+            return redirect('/ap')
     else:
         form = SignUpForm()
     return render(request, 'ap/en/signup.html', {'form': form})

@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 from pathlib import Path
-from .secret import secret_settings_key, EMAIL_PASSWORD 
+from .secret import secret_settings_key,  EMAIL_HOST_USER, EMAIL_HOST_PASSWORD 
 import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -26,19 +26,17 @@ SECRET_KEY = secret_settings_key
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['rafalkukawski.tech', '80.109.188.21', 'localhost']
 
 
 #email init 
-
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.sendgrid.net'
-EMAIL_HOST_USER = 'sendgridusername'
-EMAIL_HOST_PASSWORD = 'sedgridpasseord'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = EMAIL_HOST_USER 
+EMAIL_HOST_PASSWORD = EMAIL_HOST_PASSWORD  #past the key or password app here
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-DEFAULT_FROM_EMAIL = 'yourmail@site.com'
-
+DEFAULT_FROM_EMAIL = 'rafal.kuka94@gmail.com'
 
 import os.path
 STATIC_ROOT = ''
