@@ -2,3 +2,4 @@
  **/__pycache__
  *.pyc 
 rafatech/rafatech/secret.py
+rafatech/rafatech/__pycache__/
