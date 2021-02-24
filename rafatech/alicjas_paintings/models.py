@@ -19,6 +19,13 @@ class Painting(models.Model):
     upload = models.FileField(upload_to='static/ap/uploads/')
     painting_dimensions = models.CharField(max_length=30)
 
+class cart_items(models.Model): 
+    owner_id = models.ForeignKey(User, on_delete=models.CASCADE) 
+
+class favorite_items(models.Model): 
+    owner_id = models.ForeignKey(User, on_delete=models.CASCADE) 
+
+
 class Imgs(models.Model ):
     painting = models.ForeignKey(Painting, on_delete=models.CASCADE)
     img_id = models.AutoField(primary_key=True)
