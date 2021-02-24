@@ -37,9 +37,16 @@
       </ul>
                 <span class="navbar-text ms-auto">
 {% if user.is_authenticated %}
+  <div class="dropdown">
+  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
   Hi {{ user.username }}!
+  </button>
+  <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+    <li><a class="dropdown-item" href="/ap/logout">Logout</a></li>
+  </ul>
+</div>
 {% else %}
-  <a href="{% url 'login' %}">Log In</a>
+  <a href="/ap/login?next=/ap/">Log In</a>
 {% endif %}
       </span>
     </div>

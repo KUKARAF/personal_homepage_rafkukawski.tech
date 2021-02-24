@@ -1,0 +1,16 @@
+{% extends 'ap/en/base.html' %}
+{% block content %}
+
+  <h2>Sign up</h2>
+  <form method="post">
+      <div class="">
+{% load crispy_forms_tags %}
+{% crispy form %}
+    {% csrf_token %}
+    <button type="submit">Sign up</button>
+      </div>
+  </form>
+
+
+
+{% endblock %}
