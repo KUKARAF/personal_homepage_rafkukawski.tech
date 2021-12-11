@@ -53,3 +53,4 @@ sqlparse==0.4.1
 uritemplate==3.0.1
 urllib3==1.26.2
 uWSGI==2.0.19.1
+python-dotenv

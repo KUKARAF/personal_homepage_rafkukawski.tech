@@ -16,20 +16,22 @@ class Painting(models.Model):
     painting_id = models.AutoField(primary_key=True)
     painting_price = models.DecimalField(max_digits=5, decimal_places=2)
     painting_desc = models.CharField(max_length=300)
-    upload = models.FileField(upload_to='static/ap/uploads/')
+    upload = models.FileField(upload_to='media/ap/uploads/')
     painting_dimensions = models.CharField(max_length=30)
 
-class cart_items(models.Model): 
+class Cart_items(models.Model): 
     owner_id = models.ForeignKey(User, on_delete=models.CASCADE) 
+    painting_id = models.ForeignKey(Painting, on_delete=models.CASCADE) 
 
-class favorite_items(models.Model): 
+class Favorite_items(models.Model): 
     owner_id = models.ForeignKey(User, on_delete=models.CASCADE) 
+    painting_id = models.ForeignKey(Painting, on_delete=models.CASCADE) 
 
 
 class Imgs(models.Model ):
     painting = models.ForeignKey(Painting, on_delete=models.CASCADE)
     img_id = models.AutoField(primary_key=True)
-    image = models.ImageField(upload_to='static/ap/uploads/')
+    image = models.ImageField(upload_to='media/ap/uploads/')
 
 
 
@@ -43,3 +45,4 @@ def update_user_profile(sender, instance, created, **kwargs):
     if created:
         Profile.objects.create(user=instance)
     instance.profile.save()
+

@@ -1,6 +1,6 @@
 from django import forms
 from .models import Painting, Imgs
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from crispy_forms.helper import FormHelper
 from django.middleware.csrf import get_token
@@ -41,3 +41,18 @@ class SignUpForm(UserCreationForm):
     class Meta:
         model = User
         fields = ( 'first_name', 'last_name', 'username','email', 'password1', 'password2', )
+
+
+
+
+class LoginForm( AuthenticationForm):
+    username = forms.CharField(max_length=254)
+    def __init__(self, *args, **kwargs):
+        helper = FormHelper()
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+
+
+    class Meta:
+        model = User
+        fields = (  'username', 'password' )

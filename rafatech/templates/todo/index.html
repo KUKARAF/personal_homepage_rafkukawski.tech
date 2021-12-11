@@ -340,7 +340,7 @@
                 http.onreadystatechange = function()
                 {
                     if(http.readyState == 4 && http.status == 200) {
-                        console.log(required_time)
+                        console.log(http.responseText)
                         add_node(todo_name, http.responseText, importance, due_date, required_time)
                     }
                 }

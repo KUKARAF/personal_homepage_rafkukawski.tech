@@ -3,60 +3,109 @@
 <!DOCTYPE html>
 <html>
 <head>
-    
+<link rel="stylesheet"  href="/static/styles/style-ap-sm.css">
+<link href="/static/ap/fonts/tomatoes-stylesheet.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+<link rel="shortcut icon" type="image/png" href="{% static 'brush.ico' %}"/>
 
-    
-    <link href="/static/ap/fonts/tomatoes-stylesheet.css" rel="stylesheet">
-
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
-  <link rel="shortcut icon" type="image/png" href="{% static 'brush.ico' %}"/>
-
-  <meta charset="utf-8">
-  <title>{% block title %}Alicja Binder Home Page{% endblock %}</title>
+<meta charset="utf-8">
+<title>{% block title %}Alicja Binder Home Page{% endblock %}</title>
 </head>
-<body class="bg-white">
+    <body class="bg-white h-100">
 
-<nav class="navbar navbar-expand-lg navbar-white bg-white text-dark">
-  <div class="container-fluid">
-      <a class="navbar-brand text-dark" href="#" style="font-family: 'Tomatoes';">Alicja Binder</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-      <i class="fas fa-bars"></i>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNavDropdown">
-      <ul class="navbar-nav ms-auto">
-        <li class="nav-item">
-          <a class="nav-link text-dark active" aria-current="page" href="/ap">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-dark" href="/ap/about">About</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-dark" href="/ap/contact">Contact</a>
-        </li>
-      </ul>
-                <span class="navbar-text ms-auto">
-{% if user.is_authenticated %}
-  <div class="dropdown">
-  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-  Hi {{ user.username }}!
-  </button>
-  <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-    <li><a class="dropdown-item" href="/ap/logout">Logout</a></li>
-  </ul>
-</div>
-{% else %}
-  <a href="/ap/login?next=/ap/">Log In</a>
-{% endif %}
-      </span>
-    </div>
+
+
+        <nav class="navbar navbar-expand-lg navbar-white bg-light text-dark">
+          <div class="container">
+              {% if user.is_authenticated %}
+                  <div class="dropdown">
+                      <button class="btn" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                            <div><a class="dropdown-item" href="/ap/cart" ><i class="fas fa-shopping-cart"></i> </a></div>
+                      </button>
+                      <ul class="dropdown-menu"  aria-labelledby="dropdownMenuButton1">
+                            <div id="cart_content">
+                                <!-- inserted objects via JS --!>  
+                            </div>
+                              <li class="list-group-item d-flex justify-content-between">
+                                  <span>Total (EUR)</span>
+                                  <strong id="total_amount" >0</strong>
+                              </li>
+                          <a href="/ap/user/cart" class="w-100 btn btn-primary btn-lg" role="button">Continue to checkout</a>
+
+                      </ul>
+                            </div>
+                            <div class="dropdown me-auto">
+                                <button class="btn" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fas fa-user"></i>     </button>
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton1">
+                                    <li><a class="dropdown-item" href="#"><i class="fas fa-user"> </i> {{ user.username }}
+                                        </a></li>
+                                        <li><a class="dropdown-item" href="/ap/logout"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                                </div>
+                            </div >
+              {% else %}
+
+                   <a type="button" class="btn btn-outline-secondary" href="/ap/login?next=/ap/">Log In</a>
+                {% endif %}
+
+        <div class="nav-item">
+
+          <a class="navbar-brand text-dark" href="/ap/" style="font-family: 'Tomatoes';">Alicja Binder</a>
+        </div>
+                  </div>
   </div>
 </nav>
 
-  <main class="">
+  <main class="h-100">
     {% block content %}
     {% endblock %}
   </main>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+<script>
+
+function uniq(a) {
+    var prims = {"boolean":{}, "number":{}, "string":{}}, objs = [];
+
+    return a.filter(function(item) {
+        var type = typeof item;
+        if(type in prims)
+            return prims[type].hasOwnProperty(item) ? false : (prims[type][item] = true);
+        else
+            return objs.indexOf(item) >= 0 ? false : objs.push(item);
+    });
+}
+
+function generate_list_item(o){
+   html = '<li class="list-group-item d-flex justify-content-between lh-sm"><div> <h6 class="my-0">'+o.painting_name+'</h6>  <small class="text-muted">'+o.painting_desc+'</small> </div> <span class="text-muted">'+o.painting_price +'</span> </li>'
+   return document.createRange().createContextualFragment(html)
+}
+function get_cart_items(){
+    url = "/ap/cart/ls.json"
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            paintings = uniq(JSON.parse(this.responseText))
+            pp = []
+            p_sum = 0
+            for(var i = 0; i < paintings.length; i++){
+                p = paintings[i].fields
+                if(!pp.includes(paintings[i].pk))
+                {
+                
+                    pp.push(paintings[i].pk)
+                    p_sum += parseInt(p.painting_price )
+                    document.getElementById("cart_content").appendChild(generate_list_item(p))
+                
+                }
+            }
+            document.getElementById("total_amount").innerHTML = p_sum
+        } 
+    };
+    xhttp.open("GET", url, true);
+    xhttp.send();
+}
+get_cart_items()
+</script>
 </html>

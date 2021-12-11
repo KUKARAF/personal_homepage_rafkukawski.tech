@@ -21,7 +21,6 @@ urlpatterns = [
     path('todo/', include('todo.urls')), 
     path('ap/', include('alicjas_paintings.urls')), 
     path('admin/', admin.site.urls), 
-    path('admin/', admin.site.urls), 
     path('accounts/',include('django.contrib.auth.urls')), 
     path('form/', TemplateView.as_view(template_name='contact.html'), name='home'), 
     path('', TemplateView.as_view(template_name='home.html'), name='home'), 

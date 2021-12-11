@@ -1,0 +1,31 @@
+
+<div class="row pt-2" data-bs-toggle="collapse" href="#collapseTerminal" role="button" aria-expanded="false" aria-controls="collapseExample">
+    <div class="col-3 skill-icon d-flex flex-row-reverse">
+        <div>
+
+        <i class="{% block icon %}{{ fa_icon }}{% endblock %}" style="font-size: 45px"></i>
+        </div>
+    </div>
+    <div class="col-9">
+        <div class="row">
+            <div class="row"> 
+                <div class="col-12">
+                    {% block title %}{{ title }}{% endblock %}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow=70 aria-valuemin="0" aria-valuemax="100" style={% block perc %} "width: {{percent}}%" {% endblock %}></div>
+                    </div>
+            </div>
+            </div>
+        </div>
+    </div>
+    <div class="ps-4 collapse" id="collapseTerminal">
+        <div class="bg-dark card card-body">
+            {% block desc %}{{ desc }}{% endblock %}
+      </div>
+    </div>
+</div>
+    

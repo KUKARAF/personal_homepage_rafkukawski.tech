@@ -1,0 +1,62 @@
+
+<h2 style="text-align:center">Sysadmin</h2>
+
+        {% include "skill_item.html" with title="Linux" desc="At the age of 13 I decided to abandon windows for the best OS there is and as a result of that I mastered the GNU+Linux ecosystem. Modding the Linux Kernel to run Manjaro on my Surface book 2, configuring every detail of my I3 to my liking and maintining a always on Plex server for friends and family are all tasks that I get done without a problem and on some occasions even do on a daily basis." fa_icon="fab fa-linux" percent="85"  %}
+
+
+        {% include "skill_item.html" with title="Command line tools" desc="Due to my extensive Linux experience and constant work with remote servers I have been forced into completely mastering any task via the command line. I have reached a point where I am more comfortable with command line tools than with most GUI's. There is something deeply satysfying about crafting my .bashrc file to perfection." fa_icon="fas fa-terminal"  percent="90" %}
+
+
+        {% include "skill_item.html" with title="Windows" desc="Although I prefer Linux as my daily driver due to the closed source nature of Windows, I am still very familiar with the ins and outs of windows." fa_icon="fab fa-windows"  percent="60" %}
+
+
+
+
+
+
+
+
+    <div class="row pt-2" data-bs-toggle="collapse" href="#collapseVim" role="button" aria-expanded="false" aria-controls="collapseExample">
+        <div class="col-3 skill-icon d-flex flex-row-reverse">
+            <div>
+
+            <p class="" style="font-size: 45px">Vim</p>
+            </div>
+        </div>
+        <div class="col-9">
+            <div class="row">
+                <div class="row"> 
+                    <div class="col-12">
+                        Vim
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="progress">
+                              <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 80%"></div>
+                        </div>
+                </div>
+                </div>
+            </div>
+        </div>
+        <div class="ps-4 collapse" id="collapseVim">
+            <div class="bg-dark card card-body">
+                Despite the steap learning curve of VI i do think it is the best text editor there is due to its unriveled flexibility. I have spent unbelievable amounts of time inside of vim. Even this site has been completely written from within vim. 
+          </div>
+        </div>
+    </div>
+
+<script>
+el = document.getElementsByClassName("pt-2")[0]
+
+function toggle_collapse(el){
+    console.log(el)
+    nv = el.getElementsByClassName("collapse")[0]
+    v = el.getElementsByClassName("collapse.show")[0]
+    if(nv){
+        
+    }
+}
+</script>
+</div>
+</div>

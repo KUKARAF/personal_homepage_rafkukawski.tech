@@ -28,14 +28,15 @@ function show_on_main(url, img){document.getElementById("main_foto").src=url ;sh
     <div class="row  mb-5">
         <div class="col-2" id = "iamge_preview">
         
-            <img src="/{{painting.upload}}" class="img-fluid m-1 h-0" alt="" onclick="show_on_main('/{{painting.upload}}',this)")>
+            <img src="{{painting.upload}}" class="img-fluid m-1 h-0" alt="" onclick="show_on_main('/{{painting.upload}}',this)")>
             {% for i in images %}
-            <img src="/{{i.image}}" class="img-fluid m-1" alt="" onclick="show_on_main('/{{i.image}}',this)")>
+            <img src="/ap/{{i.image}}" class="img-fluid m-1" alt="" onclick="show_on_main('/ap/{{i.image}}',this)")>
             {% endfor %}
         </div>
         <div class="col-10">
-            <img id="main_foto"src="/{{painting.upload}}" alt="" class="img-fluid" >
+            <img id="main_foto"src="/ap/{{painting.upload}}" alt="" class="img-fluid" >
         </div>
+    </div>
     </div>
 
 <div class="container-fluid description-box">
@@ -70,10 +71,10 @@ function show_on_main(url, img){document.getElementById("main_foto").src=url ;sh
         <div class="col-4 mt-2 ">
             <div class="row m-2">
 
-<button type="button" class="btn btn-danger">Danger</button>
+<a href="/ap/user/cart/{{painting.painting_id}}" class="btn btn-danger" role="button">Buy this painting now</a>
             </div>
             <div class="row m-2">
-                <button type="button" class="btn btn-outline-secondary">Secondary</button>
+                <button type="button" id="cart_btn" class="btn btn-outline-secondary">Add to cart <i class="fas fa-cart-plus"></i></button>
             </div>
         </div>
 
@@ -82,4 +83,67 @@ function show_on_main(url, img){document.getElementById("main_foto").src=url ;sh
 
 </div>
 </div>
+<script>
+
+function add_cart(pid){
+    url = '/ap/cart/add/pid'.replace('pid', pid)
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            r = this.responseText
+            console.log(r)
+
+            update_cart_button()
+        } 
+    };
+    xhttp.open("GET", url, true);
+    xhttp.send();
+}
+function rm_cart(pid){
+    url = '/ap/cart/rm/pid'.replace('pid', pid)
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            r = this.responseText
+            console.log(r)
+            update_cart_button()
+        } 
+    };
+    xhttp.open("GET", url, true);
+    xhttp.send();
+}
+
+
+function update_cart_button(){
+    url = "/ap/cart/ls.json"
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            paintings = JSON.parse(this.responseText)
+            pid_open = parseInt(window.location.pathname.split("/")[3])
+            pp = []
+            p_sum = 0
+            for(var i = 0; i < paintings.length; i++){
+                pp.push(paintings[i].pk)
+            }
+            console.log(pp)
+                console.log(pp.includes(parseInt(window.location.pathname.split("/")[3])))
+                if(!pp.includes(pid_open))
+                {
+                    document.getElementById("cart_btn").onclick=function(){add_cart(pid_open)}                            
+                    document.getElementById("cart_btn").innerHTML = "Add to cart"
+                
+                }else{
+                
+                    document.getElementById("cart_btn").onclick=function(){rm_cart(pid_open)}                            
+                    document.getElementById("cart_btn").innerHTML = "Remove from  cart"
+                }
+            
+        } 
+    };
+    xhttp.open("GET", url, true);
+    xhttp.send();
+}
+update_cart_button()
+</script>
 {% endblock %}

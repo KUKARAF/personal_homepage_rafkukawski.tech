@@ -111,7 +111,7 @@ background-image: url("{% static 'home/city-bg.jpg' %}");
             </div>
             <div class="row text-center text-dark">
                 <h1>Rafal Kukawski</h1>
-                <h5>FULL-STACK SOFTWARE ENGINEER</h5>
+                <h5>FULL-STACK SOFTWARE DEVELOPER</h5>
             </div>
 
             <div class="row vh-50">
@@ -162,11 +162,12 @@ background-image: url("{% static 'home/city-bg.jpg' %}");
 --!>
 
 
-<div class="container-fluid bg-dark vh-100"><!-- main header part --!>
+<div class="container-fluid bg-dark"><!-- main header part --!>
     <div id="skill_header" class="row">
         <h1 class="text-center mt-3 border-bottom">SKILLS</h1>
     </div>
     <div class="row">
+
         <div class="col-md-6 col-s-12 text-center mb-5">
             <h1>Bootstrap 5.0</h1>
             <div class="text-center display-1">
@@ -233,8 +234,18 @@ background-image: url("{% static 'home/city-bg.jpg' %}");
 
 
     </div>
+    <div class="col-md-6 col-sm-11 pt-4">
+        {% include "skill_items_sysadmin.html" %}
+
+
+    <div class="col-md-6">
+
     </div>
 </div>
+
+
+</div>
+
 
 
 
@@ -252,28 +263,8 @@ background-image: url("{% static 'home/city-bg.jpg' %}");
 <h1 class="text-center text-whiter">
 Get in touch
 </h1>
-<form>
-<div class="row">
+{% include "contact.html" %}
 
-  <div class="mb-3">
-    <label for="InputEmail" class="form-label">Email address</label>
-    <input type="email" class="form-control bg-dark text-white" id="exampleInputEmail1" aria-describedby="emailHelp">
-    <div id="emailHelp" class="form-text"></div>
-  </div>
-  <div class="mb-3 ">
-    <label for="Su bject" class="form-label ">What is it about?</label>
-    <input type="password" class="form-control  bg-dark text-white" id="exampleInputPassword1">
-  </div>
-
-
-  <div class="mb-4">
-  <label for="floatingTextarea2">Message</label>
-  <textarea class="form-control bg-dark text-white" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px"></textarea>
-
-</div>
-</div>
-  <button type="submit" class="btn btn-primary">Submit</button>
-</form>
 </div>
 </div>
 

@@ -103,13 +103,31 @@ obj = {
 'fc':document.getElementById('fc').childElementCount,
 'sc':document.getElementById('sc').childElementCount,
 'tc':document.getElementById('tc').childElementCount}
-var keys   = Object.keys(obj);
+var keys = Object.keys(obj);
 var lowest = Math.min.apply(null, keys.map(function(x) { return obj[x]} ));
 var match  = keys.filter(function(y) { return obj[y] === lowest });
 document.getElementById(match[0]).appendChild(a)
 
 
         {% endfor %}
+function generate_list_item(o){
+   html = '<li class="list-group-item d-flex justify-content-between lh-sm"><div> <h6 class="my-0">'+o.painting_name+'</h6>  <small class="text-muted">'+o.painting_desc+'</small> </div> <span class="text-muted">'+o.painting_price +'</span> </li>'
+   return document.createRange().createContextualFragment(html)
+}
+function get_cart_items(){
+    url = "/ap/cart/ls.json"
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            paintings = JSON.parse(this.responseText)[0].fields 
+            document.getElementById("cart_content").appendChild(generate_list_item(paintings))
+        } 
+    };
+    xhttp.open("GET", url, true);
+    xhttp.send();
+}
+
+
 
 </script>
 

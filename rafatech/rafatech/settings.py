@@ -22,10 +22,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = secret_settings_key 
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', secret_settings_key)
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
+#DEBUG = True
+DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
 ALLOWED_HOSTS = ['rafalkukawski.tech', '80.109.188.21', 'localhost']
 
 
@@ -38,7 +38,6 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = 'rafal.kuka94@gmail.com'
 
-import os.path
 STATIC_ROOT = ''
 
 STATIC_URL = '/static/'
@@ -54,6 +53,7 @@ INSTALLED_APPS = [
     'todo',
     'alicjas_paintings',
     'crispy_forms',
+    'sendfile',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -74,6 +74,23 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'rafatech.urls'
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_logger': False,
+    'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+        },
+    },
+    'root': {'level': 'INFO'},
+}
 
 TEMPLATES = [
     {
