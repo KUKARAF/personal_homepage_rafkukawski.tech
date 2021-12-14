@@ -1,5 +1,4 @@
-
-<div class="row pt-2" data-bs-toggle="collapse" href="#collapseTerminal" role="button" aria-expanded="false" aria-controls="collapseExample">
+<div class="row pt-2" data-bs-toggle="collapse" href="#{% block collapse_block  %}{{ collapse_block }}{% endblock %}" role="button" aria-expanded="false" aria-controls="{{ collapse_block }}">
     <div class="col-3 skill-icon d-flex flex-row-reverse">
         <div>
 
@@ -22,10 +21,9 @@
             </div>
         </div>
     </div>
-    <div class="ps-4 collapse" id="collapseTerminal">
+    <div class="ps-4 collapse" id="{{ collapse_block }}">
         <div class="bg-dark card card-body">
             {% block desc %}{{ desc }}{% endblock %}
       </div>
     </div>
 </div>
-    
