@@ -1,0 +1,33 @@
+{% if form.errors %}
+    {% for field in form %}
+        {% for error in field.errors %}
+            <div class="alert alert-danger">
+                <strong>{{ error|escape }}</strong>
+            </div>
+        {% endfor %}
+    {% endfor %}
+    {% for error in form.non_field_errors %}
+        <div class="alert alert-danger">
+            <strong>{{ error|escape }}</strong>
+        </div>
+    {% endfor %}
+{% endif %}
+<form  id="contactForm" action="contact/" class="pb-5" method="POST" >
+{% csrf_token %}
+<div class="row">
+  <div class="mb-3">
+    <label for="InputEmail" class="form-label text-white">Email</label>
+    <input name="mail" placeholder="john.doe@email.com "  type="email" class="form-control bg-dark text-white" id="exampleInputEmail1" aria-describedby="emailHelp">
+    <div id="emailHelp" class="form-text"></div>
+  </div>
+  <div class="mb-3 ">
+    <label for="subject" class="form-label text-white">Temat</label>
+    <input type="Text`" name="subject" class="form-control   bg-dark text-white" placeholder="" id="exampleInputPassword1">
+  </div>
+  <div class="mb-4 text-white">
+  <!--label for="floatingTextarea2">Wiadomosc</label --!>
+  <textarea class="form-control bg-dark text-white" name="message" placeholder="Chce sie spotkac w ... " id="floatingTextarea2" style="height: 100px" maxlength="500"></textarea>
+</div>
+</div>
+  <button type="submit" class="btn btn-primary g-recaptcha" data-sitekey="6LfEDX4eAAAAALokTHvOKYKPJtNi0NRXIye95bw4" data-callback='onSubmit' data-action='submit' >Submit</button>
+</form>
