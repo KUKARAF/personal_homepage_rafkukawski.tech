@@ -17,7 +17,9 @@ from django.contrib import admin
 from django.urls import include, path
 import django.contrib.auth.urls
 from django.views.generic.base import TemplateView 
+from . import views
 urlpatterns = [
+    path('robots.txt', views.robots),#meant to be used with query string 
     path('todo/', include('todo.urls')), 
     path('ap/', include('alicjas_paintings.urls')), 
     path('admin/', admin.site.urls), 
