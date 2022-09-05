@@ -16,12 +16,18 @@ def contact_form(request):
             # create a form instance and populate it with data from the request:
             # check whether it's valid:
             #if form.is_valid():
-            send_mail(
-                form.cleaned_data['subject'],
-                form.cleaned_data['message']+' \n '+form.cleaned_data['mail'],
-                'rafal.kuka94@gmail.com',
-                ['rafal.kuka94@gmail.com'],
-                )
+            with open("contact_form.txt", "a") as cf: 
+                cf.write("\n\n-----------------------------\n-----------------------------\n")
+                cf.write("From: "+form.cleaned_data['mail']+"\n")
+                cf.write("Subject: "+form.cleaned_data['subject'])
+                cf.write("\n-----------------------------\n")
+                cf.write(form.cleaned_data['mail']+"\n\n")
+#            send_mail(
+#                form.cleaned_data['subject'],
+#                form.cleaned_data['message']+' \n '+form.cleaned_data['mail'],
+#                'rafal.kuka94@gmail.com',
+#                ['rafal.kuka94@gmail.com'],
+#                )
 
             #return HttpResponseRedirect('/thanks/')
             #return HttpResponse('200')
