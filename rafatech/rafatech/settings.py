@@ -51,6 +51,7 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 #STATIC_URL = ['static']
 INSTALLED_APPS = [
     'todo',
+    'aglu',
     'alicjas_paintings',
     'crispy_forms',
     'sendfile',
