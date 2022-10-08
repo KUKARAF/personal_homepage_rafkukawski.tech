@@ -24,8 +24,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', secret_settings_key)
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
-#DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
+#DEBUG = True
+DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
 ALLOWED_HOSTS = ['rafalkukawski.tech', '80.109.188.21', 'localhost']
 
 
@@ -51,6 +51,7 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 #STATIC_URL = ['static']
 INSTALLED_APPS = [
     'todo',
+    'aglu',
     'alicjas_paintings',
     'crispy_forms',
     'sendfile',
