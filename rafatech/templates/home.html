@@ -8,8 +8,24 @@
 {% block content %}
 
 <style>
+
+.rotate-on-hover {
+  transition: transform 0.3s ease-in-out;
+}
+
+.rotate-on-hover:hover {
+  transform: rotate(45deg); /* Adjust the angle as needed */
+}
+
+
 #left_container{background-color: rgba(255, 255, 255, 0.5)}
 .socials{font-size: xx-large; color:black !important}
+
+@media (max-width: 767px) {
+    #right_container {
+      color: #fff; /* White text color for phones */
+    }
+  }
 
 #main_img{
     border-radius: 50%;
@@ -110,7 +126,7 @@ background-image: url("{% static 'home/city-bg.jpg' %}");
                 </div>
             </div>
             <div class="row text-center text-dark">
-                <h1>Rafael Kukawski</h1>
+                <h1>Rafal Kukawski</h1>
                 <h5>FULL-STACK SOFTWARE DEVELOPER</h5>
             </div>
 
@@ -122,8 +138,8 @@ background-image: url("{% static 'home/city-bg.jpg' %}");
                 <a class="col text-center text-dark" href="https://github.com/KUKARAF">
                     <i class="fab fa-github"></i>
                 </a>
-                <a class="col text-center text-dark" href="https://www.facebook.com/Rafalku94/">
-                    <i class="fab fa-facebook"></i>
+                <a class="col text-center text-dark" href="https://appointment.osmosis.page">
+                    <i class="fas fa-calendar-times"></i>
                 </a>
                 <a class="col text-center text-dark" href="Tel:+48668568097">
                     <i class="fas fa-phone"></i>
@@ -136,18 +152,16 @@ background-image: url("{% static 'home/city-bg.jpg' %}");
 
         <div id="right_container" class="col-md-9 col-s-12 vh-100">
             <div class="text_container m-5">
-                <h1>Hi, I'm Rafael,</h1>
-                <h2> a freelance web dev specialized in
-                <br/><b>both front-end and back-end</b>.</h2>
+                <h1>Hi, I am Raf!</h1>
+                <h2>I like to make cool things with computers.
+                <br/><b>Foss enthusiast / Linux Fanboy / Wannabe Minimalist</b>.</h2>
                 <br/><br/>
-                <span> You can focus on your buisness while i take care of your <span id="activity">Website</span>
+                <span> Lets make something! Maybe <span id="activity"> a Website?</span>
                 <span class="blinking-cursor">|</span>
             </div>
         </div>
     </div>
 </div>
-
-
 
 
 <script>
@@ -158,7 +172,7 @@ background-image: url("{% static 'home/city-bg.jpg' %}");
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
-word_list = ["internet presence.","social media.","online CV.","blog.","store.","Website."]
+word_list = ["an internet presence?","a social media page?","an online CV?","a Blog?","a Store?"]
 async function replace(word_list) {
   //await sleep(500);
   // Sleep in loop

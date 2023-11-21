@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🍆</title>
+
+    <!-- Add Bootstrap CSS and FontAwesome CSS links -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css">
+
+    <!-- Optional: Add custom CSS for styling -->
+    <style>
+        body {
+            background-color: #000; /* Set the entire background to black */
+        }
+        .card {
+            margin: 10px;
+            background-color: transparent; /* Make the card background invisible */
+        }
+        .card-button {
+            width: 100%;
+            padding: 20px;
+        }
+        .search-bar {
+            width: 100%;
+            padding: 10px;
+            background-color: #333; /* Style the search bar */
+            color: #fff;
+        }
+        .search-bar-row {
+            padding-top: 20px; /* Add padding to the top above the search bar */
+        }
+        .purple-button {
+            background-color: #800080; /* Make the "Jellyfin" button purple */
+            color: #fff;
+            border: none;
+        }
+        .purple-button:hover {
+            background-color: #800080;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- Row 1: Search Bar -->
+    <div class="row search-bar-row">
+        <div class="col-md-12">
+          <input type="text" id="searchInput" class="search-bar" placeholder="SearxNG                   !wa wolfram !go google only !wp wikipedia ">
+        </div>
+    </div>
+
+    <!-- Row 2: Cards -->
+    <div class="row">
+        <!-- Example card 1 -->
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                </div>
+                <a href="https://jellyfin.osmosis.page" class="btn btn-success card-button purple-button">
+                    <i class="fas fa-film"></i> Jellyfin
+                </a>
+            </div>
+        </div>
+
+        <!-- Example card 2 -->
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                </div>
+                <a href="https://audiobookshelf.osmosis.page" class="btn btn-warning card-button">
+                    <i class="fas fa-book"></i> Audiobook Shelf
+                </a>
+            </div>
+        </div>
+
+        <!-- Example card 3 -->
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                </div>
+                <a href="https://radarr.osmosis.page" class="btn btn-danger card-button">
+                    <i class="fas fa-video"></i> Radarr
+                </a>
+            </div>
+        </div>
+        
+        <!-- Example card 4 -->
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                </div>
+                <a href="https://sonarr.osmosis.page" class="btn btn-info card-button">
+                    <i class="fas fa-tv"></i> Sonarr
+                </a>
+            </div>
+        </div>
+
+        <!-- Example card 5 -->
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                </div>
+                <a href="https://lidarr.osmosis.page" class="btn btn-secondary card-button">
+                    <i class="fas fa-music"></i> Lidarr
+                </a>
+            </div>
+        </div>
+
+        <!-- Example card 6 -->
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                </div>
+                <a href="https://rss.osmosis.page" class="btn btn-success card-button">
+                    <i class="fas fa-rss"></i> RSS
+                </a>
+            </div>
+        </div>
+
+
+        <!-- Example card 7 -->
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                </div>
+                <a href="https://appointment.osmosis.page" class="btn btn-primary card-button">
+                    <i class="fas fa-calendar"></i> Appointment
+                </a>
+            </div>
+        </div>
+
+        <!-- Example card 8 -->
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                </div>
+                <a href="https://nextcloud.osmosis.page" class="btn btn-info card-button">
+                    <i class="fas fa-cloud"></i> Nextcloud
+                </a>
+            </div>
+        </div>
+
+        <!-- Example card 9 -->
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                </div>
+                <a href="https://transmission.osmosis.page" class="btn btn-warning card-button">
+                    <i class="fas fa-download"></i> Transmission
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- JavaScript to handle search bar focus -->
+<script>
+    // Get a reference to the search input element
+    const searchInput = document.getElementById("searchInput");
+
+    // Add an event listener to the document for keyboard input
+    document.addEventListener("keydown", function(event) {
+        // Check if any keyboard input is detected
+        if (event.key) {
+            // Focus on the search input
+            searchInput.focus();
+        }
+    });
+</script>
+
+
+
+<!-- JavaScript to handle search redirection -->
+<script>
+    document.getElementById("searchInput").addEventListener("keyup", function(event) {
+        if (event.key === "Enter") {
+            const searchQuery = this.value;
+            const searchURL = `https://searx.osmosis.page/searxng/search?q=${searchQuery}&language=auto&time_range=&safesearch=0&categories=general`;
+            window.location.href = searchURL;
+        }
+    });
+</script>
+
+<!-- Add Bootstrap and FontAwesome JavaScript links at the end of the body -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
+

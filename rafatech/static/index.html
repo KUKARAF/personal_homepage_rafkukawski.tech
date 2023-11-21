@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en" style="height: 100%">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+  </head>
+  <body class="h-100">
+	
+<div class="container h-100" style="font-size:30px" visible>
+    <div class="row mt-3 h-25">
+	<button type="button" id="easy"  style="font-size:30px" class="btn btn-secondary btn-success h-100">Easy 👶</button>
+    </div>
+    <div class="row mt-3 h-25">
+	<button type="button" id="medium" style="font-size:30px" class="btn btn-secondary btn-warning h-100">Medium 🍆 </button>
+    </div>
+    <div class="row mt-3 h-25">
+	<button type="button" id="hard"  style="font-size:30px" class="btn btn-secondary btn-danger">Boss 💪</button>
+    </div>
+</div>
+
+
+<div class="container h-100" hidden>
+	<p>A FUN CHALLENGE HERE</p>
+</div>
+
+    <!-- Optional JavaScript; choose one of the two! -->
+
+    <!-- Option 1: Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+    <script>
+	    challenges = {
+		"easy": ["Tell a joke that makes everyone laugh.", "Do 5 push-ups", "Convince 3 people to do a push-up", "Make someone say a swear word from you language", "Learn swear word from diffrent language", "Start a chant", "Have a random person take a picture of you with their phone", "Do your best impression of a famous celebrity", "Do 10 jumping jacks", "Do a victory dance"], 
+		"medium": ["Do a poledance on the nearest lamppost", "Take of your shirt", "Make a heartfelt confession that you used to be a woman (man for ladies)", "Run outside in a superman pose yelling \"I'm the real superman\"i", "Lick someone hand", "Ask someone if they would be willing to sell his/her body for 100$", "Do a naughty dance moves alone or with someone", "Try to convince someone to kiss you", "Take a shot from a girls cleavage", "Do a photo with a sexy pose and post it on your social media"],
+		"hard": ["Do a freestyle rap about the host of the party", "Exchange shirts with someone", "Collect 5 red objects from random people", "Call your ex and say you love them", "Convince a girl to lend you a bra", "Ask someone for the worst pick up line. Use it on someone else", "Hold hands with random person for 10 seconds without explaining", "Wink at 5 non-crawlers from across the bar", "Find someone wearing red underwear", "Kiss someone (wherever you want)"], 
+	    }; 
+	    function click(){
+		    get_challenge(this.id)
+	    };
+	    function get_challenge(difficulty){
+		l = ["easy", "medium", "hard"]; 
+		l = l.filter(e => e !== difficulty); 
+	    	document.getElementById(l.pop()).parentElement.remove();
+	    	document.getElementById(l.pop()).parentElement.remove();
+		document.getElementById(difficulty).parentElement.classList.remove("h-25")
+		document.getElementById(difficulty).parentElement.classList.add("h-100")
+		document.getElementById(difficulty).innerText = challenges[difficulty][Math.floor(Math.random()*challenges[difficulty].length)];
+
+		
+	    };
+		document.getElementById('easy').onclick = click;
+		document.getElementById('medium').onclick = click;
+		document.getElementById('hard').onclick = click;
+
+
+	    </script>
+  </body>
+</html>
+
