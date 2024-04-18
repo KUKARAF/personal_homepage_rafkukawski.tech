@@ -1,6 +1,10 @@
-# personal_homepage_rafkukawski.tech
+# personal_homepage osmosis.page
 django based homepage with included todolist 
 
-Planed: chat with me function but not sure about implementation yet possible interface with whatsapp telegram or fb somehow 
+Planed: 
+- [ ] implement [markdownify and sync with obsidian](https://github.com/erwinmatijsen/django-markdownify)
+- [ ] add email client for aglu 
+- [ ] 
 
-made to function with gunicorn and nginx 
+
+
