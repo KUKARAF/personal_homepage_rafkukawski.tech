@@ -58,7 +58,10 @@ EXPOSE 8000
 HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 \
     CMD curl -f http://localhost:8000/health/ || exit 1
 
-# Run gunicorn with production settings
+# Debug static files using Python/Django
+RUN python -c "import os; from django.conf import settings; from django.core.management import execute_from_command_line; os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'rafatech.settings'); print('\nDjango Static Files Configuration:'); print(f'STATIC_ROOT: {settings.STATIC_ROOT}'); print(f'STATIC_URL: {settings.STATIC_URL}'); print(f'STATICFILES_DIRS: {settings.STATICFILES_DIRS}'); print('\nStatic Files Available:'); execute_from_command_line(['manage.py', 'findstatic', '--verbosity', '2', '*'])"
+
+# Run gunicorn with production settings  
 CMD ["gunicorn", \
      "--bind", "0.0.0.0:8000", \
      "--workers", "4", \
