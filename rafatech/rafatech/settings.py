@@ -57,7 +57,6 @@ INSTALLED_APPS = [
     'aglu',
     'alicjas_paintings',
     'crispy_forms',
-    'sendfile',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
