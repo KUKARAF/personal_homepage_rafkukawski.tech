@@ -2,7 +2,7 @@
 FROM python:3.8-slim
 
 # Set the working directory in the container
-WORKDIR /app
+WORKDIR /app/rafatech
 
 # Copy the current directory contents into the container at /app
 COPY . /app
@@ -18,4 +18,4 @@ RUN pip install --no-cache-dir -r requirements.txt gunicorn
 EXPOSE 8000
 
 # Run the application using gunicorn
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "rafatech.rafatech.wsgi:application"]
+CMD ["gunicorn", "--bind", "0.0.0.0:8000", "rafatech.wsgi:application"]
