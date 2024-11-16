@@ -18,4 +18,4 @@ RUN pip install --no-cache-dir -r requirements.txt gunicorn
 EXPOSE 8000
 
 # Run the application using gunicorn
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "your_project_name.wsgi:application"]
+CMD ["gunicorn", "--bind", "0.0.0.0:8000", "rafatech.wsgi:application"]
