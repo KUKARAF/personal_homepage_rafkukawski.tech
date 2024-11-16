@@ -42,7 +42,7 @@ EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = 'rafal.kuka94@gmail.com'
 
 # Static files configuration
-STATIC_ROOT = '/app/staticfiles'
+STATIC_ROOT = '/app/rafatech/static'
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
