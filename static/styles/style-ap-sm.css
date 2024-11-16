@@ -1,8 +1,0 @@
-
-body {background: blue !important}
-.dropdown-menu {
-    width: 400px !important;
-}
-nav, nav>div.container, a.navbar-brand  {min-height: 6rem !important;}
-.fa-shopping-cart, .fa-user {font-size: xx-large;}
-
