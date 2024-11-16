@@ -39,11 +39,16 @@ COPY --from=builder /usr/local/lib/python3.8/site-packages/ /usr/local/lib/pytho
 COPY --from=builder /usr/local/bin/gunicorn /usr/local/bin/gunicorn
 COPY . .
 
-# Set proper permissions
-RUN chown -R appuser:appuser /app
+# Collect static files and set permissions
+RUN python manage.py collectstatic --noinput && \
+    mkdir -p /app/staticfiles && \
+    chown -R appuser:appuser /app
 
 # Switch to non-root user
 USER appuser
+
+# Make sure static files are accessible
+ENV STATIC_ROOT=/app/staticfiles
 
 # Expose port
 EXPOSE 8000
