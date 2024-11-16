@@ -30,7 +30,8 @@ RUN useradd -m -s /bin/bash appuser
 # Set environment variables
 ENV PYTHONPATH=/app:/app/rafatech \
     PYTHONDONTWRITEBYTECODE=1 \
-    PYTHONUNBUFFERED=1
+    PYTHONUNBUFFERED=1 \
+    STATIC_ROOT=/app/staticfiles
 
 WORKDIR /app
 
@@ -38,6 +39,12 @@ WORKDIR /app
 COPY --from=builder /usr/local/lib/python3.8/site-packages/ /usr/local/lib/python3.8/site-packages/
 COPY --from=builder /usr/local/bin/gunicorn /usr/local/bin/gunicorn
 COPY . .
+
+# Create static files directory
+RUN mkdir -p /app/staticfiles
+
+# Collect static files
+RUN python manage.py collectstatic --noinput
 
 # Set proper permissions
 RUN chown -R appuser:appuser /app
