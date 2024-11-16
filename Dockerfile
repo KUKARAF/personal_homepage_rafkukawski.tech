@@ -40,9 +40,10 @@ COPY --from=builder /usr/local/bin/gunicorn /usr/local/bin/gunicorn
 COPY . .
 
 # Collect static files and set permissions
-#RUN python manage.py collectstatic --noinput && \
-#    mkdir -p /app/staticfiles && \
-#    chown -R appuser:appuser /app
+RUN python manage.py collectstatic --noinput && \
+    mkdir -p /app/staticfiles && \
+    chown -R appuser:appuser /app && \
+    chmod -R 755 /app/staticfiles
 
 # Switch to non-root user
 USER appuser
