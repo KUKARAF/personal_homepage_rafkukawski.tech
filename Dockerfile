@@ -27,5 +27,5 @@ ENV PYTHONPATH=/app:/app/rafatech
 RUN ls
 RUN pwd
 
-# Run the application using gunicorn
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "rafatech.wsgi:application"]
+# Run the application using gunicorn with debug logging
+CMD ["gunicorn", "--bind", "0.0.0.0:8000", "--log-level", "debug", "rafatech.wsgi:application"]
