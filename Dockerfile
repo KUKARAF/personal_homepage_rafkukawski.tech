@@ -1,31 +1,66 @@
 # Use the official Python image from the Docker Hub
-FROM python:3.8-slim
+FROM python:3.8-slim as builder
+
+# Set environment variables
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    PIP_NO_CACHE_DIR=1 \
+    PIP_DISABLE_PIP_VERSION_CHECK=1
 
 # Set the working directory in the container
 WORKDIR /app
 
-# Copy requirements first for better caching
+# Install system dependencies and cleanup in one layer
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+    build-essential \
+    gcc && \
+    rm -rf /var/lib/apt/lists/*
+
+# Copy and install requirements
 COPY requirements.txt .
-
-# Install system dependencies for building Python packages
-RUN apt-get update && apt-get install -y build-essential gcc
-
-# Install dependencies and gunicorn
 RUN pip install --no-cache-dir -r requirements.txt gunicorn
 
-# Copy the rest of the application
+# Final stage
+FROM python:3.8-slim
+
+# Create a non-root user
+RUN useradd -m -s /bin/bash appuser
+
+# Set environment variables
+ENV PYTHONPATH=/app:/app/rafatech \
+    PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1
+
+WORKDIR /app
+
+# Copy only necessary files from builder
+COPY --from=builder /usr/local/lib/python3.8/site-packages/ /usr/local/lib/python3.8/site-packages/
+COPY --from=builder /usr/local/bin/gunicorn /usr/local/bin/gunicorn
 COPY . .
 
-# Copy .env file
-COPY .env .
+# Set proper permissions
+RUN chown -R appuser:appuser /app
 
-# Make port 8000 available to the world outside this container
+# Switch to non-root user
+USER appuser
+
+# Expose port
 EXPOSE 8000
 
-# Add the application directory to PYTHONPATH
-ENV PYTHONPATH=/app:/app/rafatech
-RUN ls
-RUN pwd
+# Healthcheck
+HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 \
+    CMD curl -f http://localhost:8000/health/ || exit 1
 
-# Run the application using gunicorn with debug logging
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "--log-level", "debug", "rafatech.wsgi:application"]
+# Run gunicorn with production settings
+CMD ["gunicorn", \
+     "--bind", "0.0.0.0:8000", \
+     "--workers", "4", \
+     "--worker-class", "gthread", \
+     "--threads", "2", \
+     "--timeout", "60", \
+     "--keep-alive", "5", \
+     "--log-level", "warning", \
+     "--access-logfile", "-", \
+     "--error-logfile", "-", \
+     "rafatech.wsgi:application"]
