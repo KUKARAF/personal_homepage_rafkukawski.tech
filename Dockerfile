@@ -7,6 +7,9 @@ WORKDIR /app
 # Copy the current directory contents into the container at /app
 COPY . /app
 
+# Install system dependencies for building Python packages
+RUN apt-get update && apt-get install -y build-essential gcc
+
 # Install any needed packages specified in requirements.txt
 # Also install gunicorn for production server
 RUN pip install --no-cache-dir -r requirements.txt gunicorn
