@@ -81,19 +81,46 @@ ROOT_URLCONF = 'rafatech.urls'
 
 LOGGING = {
     'version': 1,
-    'disable_existing_logger': False,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '{levelname} {asctime} {module} {process:d} {thread:d} {message}',
+            'style': '{',
+        },
+    },
     'handlers': {
         'console': {
             'level': 'DEBUG',
             'class': 'logging.StreamHandler',
+            'formatter': 'verbose'
         },
     },
     'loggers': {
         'django': {
             'handlers': ['console'],
+            'level': 'INFO',
+            'propagate': True,
+        },
+        'django.request': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': False,
+        },
+        'gunicorn.error': {
+            'level': 'DEBUG',
+            'handlers': ['console'],
+            'propagate': True,
+        },
+        'gunicorn.access': {
+            'level': 'DEBUG',
+            'handlers': ['console'],
+            'propagate': True,
         },
     },
-    'root': {'level': 'INFO'},
+    'root': {
+        'level': 'DEBUG',
+        'handlers': ['console']
+    },
 }
 
 TEMPLATES = [
