@@ -3,3 +3,6 @@
  *.pyc 
 rafatech/rafatech/secret.py
 rafatech/rafatech/__pycache__/
+.aider*
+.env
+.env
