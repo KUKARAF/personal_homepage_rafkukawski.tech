@@ -41,11 +41,12 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = 'rafal.kuka94@gmail.com'
 
-STATIC_ROOT = ''
-
+# Static files configuration
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
-
-STATICFILES_DIRS = ( os.path.join('static'), )
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
@@ -187,5 +188,3 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
-
-STATIC_URL = '/static/'
